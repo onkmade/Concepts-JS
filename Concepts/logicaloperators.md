@@ -1,0 +1,20 @@
+# Logical Operators 
+
+There are 4 main logical operators In JavaScript:
+1. **AND (`&&`)**: Returns `true` if both operands are true.
+2. **OR (`||`)**: Returns `true` if at least one operand is true.
+3. **NOT (`!`)**: Returns the opposite boolean value of the operand.
+4. **Nullish Coalescing (`??`)**: Returns the right operand if the left operand is `null` or `undefined`; otherwise, it returns the left operand.
+
+## Questions:
+
+1. Create two boolean variables `isSunny` and `isWeekend`. Use `||` to print `"Go outside"` if **either one is true**.
+2. Ask the user `"Do you have a ticket?"` and `"Do you have a pass?"` using `prompt()`. Use `||` to check if they can **enter the event**.
+3. Declare `let a = true; let b = false;` and use `||` to print `true` or `false`.
+4. Create a variable `isAdult` and `hasPermission`. Use `||` to allow access if **either is true**.
+5. Ask the user `"Do you like tea?"` and `"Do you like coffee?"`. Use `||` to print `"Beverage available"` if they like **at least one**.
+6. Declare `let isRaining = false; let hasUmbrella = true;` Use `||` to decide if the person **stays dry**.
+7. Ask the user `"Do you have a phone?"` or `"Do you have an email?"`. Use `||` to print `"We can contact you"`.
+8. Create variables `isMorning` and `isHoliday`. Use `||` to print `"You can sleep in"` if **either is true**.
+9. Declare `let likesMath = false; let likesScience = true;` Use `||` to check if the student **likes at least one subject**.
+10. Ask the user `"Are you registered?"` or `"Are you invited?"`. Use `||` to print `"Access granted"` if **either is true**.
