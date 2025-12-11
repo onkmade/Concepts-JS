@@ -31,10 +31,13 @@ if (isSunny || isWeekend) {
 ```
 2. 
 ```javascript
-let hasTicket = prompt("Do you have a ticket?") === "yes";
-let hasPass = prompt("Do you have a pass?") === "yes";
+let hasTicket = prompt("Do you have a ticket?").toLowerCase() === "yes";
+let hasPass = prompt("Do you have a pass?").toLowerCase() === "yes";
 if (hasTicket || hasPass) {
     console.log("You can enter the event");
 }
+
 ```
+In this code snippet,
+// we first declare the variable `hasTicket` using `let`. Then we assign it the result of the expression `prompt("Do you have a ticket?").toLowerCase() === "yes"`. Here’s what happens step by step: the `prompt()` function displays a dialog asking the user for input and returns their answer as a string. The `.toLowerCase()` method converts that string to lowercase to handle variations like `"Yes"` or `"YES"`. Then the expression compares the lowercase string to `"yes"` using `===`, which evaluates to `true` if it matches or `false` if it doesn’t. Finally, that boolean value (`true` or `false`) is stored in the variable `hasTicket`. So the variable ends up holding a **boolean that reflects the user’s answer**, not the string itself.
 

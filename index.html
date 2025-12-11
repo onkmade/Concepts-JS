@@ -2,17 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Radio Button Check</title>
+    <title>Learning</title>
 </head>
 <body>
     <script>
-        let isSunny = false;
-        let isWeekend = false;
+        let ask1 = prompt("Do you have a ticket?").toLowerCase() === 'yes';
+        let ask2 = prompt("DO you have a pass?").toLowerCase() === 'yes';
 
-        if( isSunny || isWeekend){
-            console.log('Go outside');
+        if( ask1 || ask2 ){
+            console.log('you can enter the event');
+        } else {
+            console.log('Fuck');
         }
-
     </script>
 </body>
 </html>
