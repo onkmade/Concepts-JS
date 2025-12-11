@@ -22,3 +22,8 @@ Thank you for your interest in contributing! 📝
 3. Submit a pull request with a short description of what you improved or suggested.  
 
 Thank you for helping make this project more useful for learners! 🤧
+
+
+# Contributing
+
+You can help by pointing out mistakes, suggesting better or simpler ways to solve problems, or adding small practice examples. Keep suggestions clear and beginner-friendly. Just fork the project, make changes, and submit a pull request with a short note about your improvement. Thanks for making this project more useful! 
