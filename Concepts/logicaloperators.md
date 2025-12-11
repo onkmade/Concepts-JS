@@ -6,6 +6,23 @@ There are 4 main logical operators In JavaScript:
 3. **NOT (`!`)**: Returns the opposite boolean value of the operand.
 4. **Nullish Coalescing (`??`)**: Returns the right operand if the left operand is `null` or `undefined`; otherwise, it returns the left operand.
 
+## 1. OR Operator (`||`)
+The OR operator (`||`) is used to combine two or more boolean expressions. It returns `true` if at least one of the expressions evaluates to `true`. If all expressions are `false`, it returns `false`.
+### Syntax
+```javascript
+expression1 || expression2
+```
+### Example
+```javascript
+let isWeekend = true;
+let isHoliday = false;
+if (isWeekend || isHoliday) {
+    console.log("You can relax!");
+} else {
+    console.log("Time to work!");
+}
+```
+
 ## Questions:
 
 1. Create two boolean variables `isSunny` and `isWeekend`. Use `||` to print `"Go outside"` if **either one is true**.
@@ -41,3 +58,10 @@ if (hasTicket || hasPass) {
 In this code snippet,
 // we first declare the variable `hasTicket` using `let`. Then we assign it the result of the expression `prompt("Do you have a ticket?").toLowerCase() === "yes"`. Here’s what happens step by step: the `prompt()` function displays a dialog asking the user for input and returns their answer as a string. The `.toLowerCase()` method converts that string to lowercase to handle variations like `"Yes"` or `"YES"`. Then the expression compares the lowercase string to `"yes"` using `===`, which evaluates to `true` if it matches or `false` if it doesn’t. Finally, that boolean value (`true` or `false`) is stored in the variable `hasTicket`. So the variable ends up holding a **boolean that reflects the user’s answer**, not the string itself.
 
+3. 
+```javascript
+let a = true;
+let b = false;
+console.log(a || b); // true
+// you can put any expression inside the console.log, it will evaluate the expression and print the result
+```
