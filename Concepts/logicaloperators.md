@@ -18,3 +18,23 @@ There are 4 main logical operators In JavaScript:
 8. Create variables `isMorning` and `isHoliday`. Use `||` to print `"You can sleep in"` if **either is true**.
 9. Declare `let likesMath = false; let likesScience = true;` Use `||` to check if the student **likes at least one subject**.
 10. Ask the user `"Are you registered?"` or `"Are you invited?"`. Use `||` to print `"Access granted"` if **either is true**.
+
+
+## Answers:
+1. 
+```javascript
+let isSunny = true;
+let isWeekend = false;
+if (isSunny || isWeekend) {
+    console.log("Go outside");
+}
+```
+2. 
+```javascript
+let hasTicket = prompt("Do you have a ticket?") === "yes";
+let hasPass = prompt("Do you have a pass?") === "yes";
+if (hasTicket || hasPass) {
+    console.log("You can enter the event");
+}
+```
+
