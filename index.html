@@ -6,9 +6,21 @@
 </head>
 <body>
     <script>
-        let a = true;
-        let b = false;
-        console.log( a || b);
-    </script>
+        function ask(question, yes, no){
+            if(confirm(question)) yes()
+            else no();
+
+    }
+    
+    function showyes(){
+        alert('So, you agreed');
+    }
+
+    function showno(){
+        alert('So, this is a no');
+    }
+
+    ask("Do you like Coffee", showyes, showno);
+    </script>  
 </body>
 </html>
