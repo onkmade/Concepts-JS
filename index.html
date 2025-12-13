@@ -1,24 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <title>Random Quote Generator</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #f0f0f0; }
+    .quote-box { max-width: 600px; margin: 0 auto; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    #quote { font-size: 1.5em; margin-bottom: 20px; min-height: 80px; }
+    #author { font-style: italic; color: #555; }
+    button { padding: 12px 24px; font-size: 1em; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #0056b3; }
+  </style>
 </head>
 <body>
-    <script>
-        const book = {
-            title: "The wings of Iceberg",
-            author: "K.K kaur",
-            genre: "Action, drama, Adventure",
-            pages: 305,
-            isRead: true
-        };
 
-        console.log(book.title); // dot notation
-        console.log(book["author"]); // Bracket Notation
-        console.log(book.pages, book.isRead);
-        console.log(`The Book ${title} by the author ${author} has genre, ${genre} and ${pages} pages.`);
-    </script>
+  <div class="quote-box">
+    <p id="quote">"Click the button to get a quote!"</p>
+    <p id="author"></p>
+    <button id="newQuoteBtn">New Quote</button>
+  </div>
+
+  <script>
+    const quotes = [
+      { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+      { text: "Code is like humor. When you have to explain it, it’s bad.", author: "Cory House" },
+      { text: "First, solve the problem. Then, write the code.", author: "John Johnson" },
+      { text: "JavaScript is the world's most misunderstood programming language.", author: "Douglas Crockford" },
+      { text: "Learning to code is learning to create and innovate.", author: "Unknown" }
+    ];
+
+    const quoteElement = document.getElementById("quote");
+    const authorElement = document.getElementById("author");
+    const button = document.getElementById("newQuoteBtn");
+
+    function getRandomQuote() {
+      const randomIndex = Math.floor(Math.random() * quotes.length);
+      return quotes[randomIndex];
+    }
+
+    button.addEventListener("click", () => {
+      const { text, author } = getRandomQuote();
+      quoteElement.textContent = `"${text}"`;
+      authorElement.textContent = `— ${author}`;
+    });
+  </script>
+
 </body>
 </html>
