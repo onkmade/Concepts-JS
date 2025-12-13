@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *,
+        *::after,
+        *::before{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-color: #F0F2F5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Jetbrains Mono;
+        }
+
+        .wrap{
+            background-color: #111111;
+            color: #F0F0F0;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            min-width: 300px;
+            text-align: center;
+            display: grid;
+            gap: 0.85rem;
+            height: 300px;
+            grid-template-rows: auto 1fr auto;
+            box-shadow: 0px 0px 0px 2px rgba(94, 94, 94, 0.729);
+            position: relative;
+        }
+
+        /* .wrap::before{
+            content: '';
+            position: absolute;
+            left: 4.2%;
+            top: 4.2%;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            background-color: yellowgreen;
+        }
+        .wrap::after{
+            content: '';
+            position: absolute;
+            left: -4.2%;
+            top: -4.2%;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            background-color: rgb(205, 50, 71);
+        } */
+
+        button{
+            outline: none;
+            border: none;
+            padding: 0.375rem 0.5rem;
+            border-radius: 0.275rem;
+            color: white;
+            font-size: 14pt;
+            background-color: inherit;
+        }
+
+        .buttons{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        #add{ flex:1; background-color: steelblue;}
+        #minus{ flex:1; background-color: tomato;}
+        #count{ 
+            font-size: 100pt;
+            transition: all 0.5s ease-in-out;
+        }
+        
+        #add:hover{ 
+            background-color: rgb(38, 80, 113);
+            cursor: pointer;
+        }
+        #minus:hover{ 
+            background-color: rgb(202, 76, 54);
+            cursor: pointer;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <h3>THIS IS CALC</h3>
+        <p id="count">0</p>
+        <div class="buttons">
+            <button id="add">ADD</button>
+            <button id="minus">MINUS</button>
+        </div>
+    </div>
+    <script>
+        const Addbtn = document.getElementById('add');
+        const Minusbtn = document.getElementById('minus');
+        const display = document.getElementById('count');
+        let count = 0;
+        
+        Addbtn.addEventListener('click', () =>{
+            count += 1000;
+            display.innerHTML = count;
+        });
+
+        Minusbtn.addEventListener('click', ()=>{
+            count -= 1;
+            display.innerHTML = count;
+        });
+    </script>
+</body>
+</html>
