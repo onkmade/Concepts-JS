@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "JetBrains Mono";
+            min-height: 100svh;
+            width: 100%;
+        }
+
+        .wrap{
+            display: grid;
+            gap: 0.5rem;
+            background-color: #111;
+            color: #F0F0F0;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            position: relative;
+        }
+
+        button{
+            min-width: fit-content;
+            border: none;
+            outline: none;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            font-family: "JetBrains Mono";
+            font-size: 14pt;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <p style="font-size: larger;">student Identity</p>
+        <p id="name"></p>
+        <p id="age"></p>
+        <p id="skills"></p>
+        <p id="address"></p>
+        <button type="submit" id="btn" onclick="Greet()">greet</button>
+        <br>
+        <div id="message" class="message"></div>
+    </div>
+    <script>
+        const person = {
+            name: "Kiuru",
+            Age: 21,
+            Skills: ["Coding", "Leading", "Earning Money and People"],
+            address: {
+                City: "KingofKings",
+                Street:"Helsiker, Finland"
+            },
+
+            fullAdress(){
+                return `${this.address.City}, ${this.address.Street}`
+            }
+        };
+
+        console.log(person.name, person.Age, person.fullAdress()); // Debugging
+
+        document.getElementById('name').textContent = `Name: ${person.name}`;
+        document.getElementById('age').textContent = `AGE: ${person.Age}`;
+        document.getElementById('skills').textContent = `SKILLS: ${person.Skills}`;
+        document.getElementById('address').textContent = `ADDRESS: ${person.fullAdress()}`
+
+        document.getElementById('btn').addEventListener('click', () => {
+            document.getElementById('message').textContent = `welcome, ${person.name}`;
+        });
+    </script>
+</body>
+</html>
