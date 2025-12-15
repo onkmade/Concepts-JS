@@ -1,0 +1,57 @@
+`.slice()` is a **basic and super useful string method** that lets you extract a portion of a string without changing the original.
+
+It takes two optional parameters:  
+`.slice(startIndex, endIndex)`
+
+- `startIndex`: where to begin extracting (inclusive, 0-based)  
+- `endIndex`: where to stop (exclusive — it does **not** include this character)  
+- If you omit `endIndex`, it goes until the end of the string  
+- Negative numbers count from the end (-1 is the last character)
+
+Here are clear examples:
+
+```js
+let text = "JavaScript is fun";
+
+// Basic slice: from index 0 to 10 (not including 10)
+console.log(text.slice(0, 10));     // "JavaScript"
+
+// Omit end: from index 11 to the end
+console.log(text.slice(11));        // "is fun"
+
+// From index 4 to 14
+console.log(text.slice(4, 14));     // "Script is"
+
+// Negative indexes: last 3 characters
+console.log(text.slice(-3));        // "fun"
+
+// From index -7 to -4
+console.log(text.slice(-7, -4));    // "is "
+
+// From index 4 to the end
+console.log(text.slice(4));         // "Script is fun"
+```
+
+Key points to remember:
+- It returns a **new string** — the original stays unchanged
+- The end index is **not included**
+- Works perfectly with `.length` for dynamic cuts
+
+Real-world uses:
+```js
+let filename = "photo.jpg";
+let extension = filename.slice(filename.lastIndexOf(".")); // ".jpg"
+
+let longBio = "I am learning JavaScript and loving it!";
+let shortBio = longBio.slice(0, 20) + "..."; // "I am learning JavaSc..."
+```
+
+`.slice()` is safe, simple, and one of the first string methods you should master after the very basics.
+
+Practice:  
+Take `let greeting = "Hello Kiuru!";`  
+- Extract "Kiuru" using `.slice()`  
+- Extract "Hello"  
+- Extract the last 3 characters
+
+When you're comfortable, we can move on — just say "got it" or ask for more examples! 🚀
