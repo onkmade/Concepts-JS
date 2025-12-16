@@ -1,10 +1,10 @@
-const numbers = [2, 3, 4, 16, 65, 244, 576, 5, 100, 15, 20, 25];
-const doubled = numbers.map( num => num * 2);
-console.log(numbers); // original array
-console.log(doubled); // doubled array
+// Finding the active Users
+const users = [
+    {name: "kiuru", isactive: false},
+    {name: "Sam", isactive: true},
+    {name: "servus", isactive: false},
+    {name: "Aaru", isactive: true}
+];
 
-const filtering = numbers.filter( num => num % 2 === 0);
-console.log(filtering); // filtered array numbers based on condition
-
-const filter  = numbers.map( num => num % 2 === 0);
-console.log(filter);  // gives true true false false cause num % 2 === 0, always returns the true/false
+const activeUser = users.filter( user => user.isactive);
+console.log(activeUser);
