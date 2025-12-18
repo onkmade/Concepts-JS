@@ -20,10 +20,15 @@
     <li>Frog</li>
     <li class="monkey">Lionel</li>
     <div class="box">DONE</div>
+    <img src="https://i.pinimg.com/1200x/7d/4a/7a/7d4a7a32265ca2e26e1cb47c246fca9a.jpg" id="img" alt="profile">
     <script>
         const list = document.querySelectorAll('li');
         const ID = document.querySelector('.monkey');
         const box = document.querySelector('.box');
+        const img = document.getElementById('img');
+
+        console.log(img.src);
+        img.src = "https://i.pinimg.com/1200x/5d/74/d3/5d74d31ac746e683fab94c42010af4c0.jpg"
 
         box.innerText = "Updated Content"
 
