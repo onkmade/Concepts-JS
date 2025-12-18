@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Learning</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learning Js</title>
 </head>
 <body>
-    <button id="btn">Button</button>
-    <p id="message">Nothing yet....</p>
+    <div class="card">Something...</div>
+    <div class="card">Kamin</div>
     <script>
-        const btn = document.getElementById('btn');
-        const output = document.getElementById('message');
+        const para = document.querySelectorAll('p, .name');
+        const cards = document.querySelectorAll(".card");
+        console.log(cards.length);
 
-        btn.addEventListener('click', (event)=> {
-            output.textContent = 'Button was clicked';
-            btn.style.backgroundColor = 'steelblue';
-            console.log(event);
-            console.log(event.target);
-            console.log(event.currentTarget);
-            console.log(event.type);
-            console.log(event.clientX, event.clientY);
+        cards.forEach( card => {
+            card.style.padding = "20px";
+            card.style.margin = "6px";
+            card.style.backgroundColor = "steelblue";
+        });
+
+        para.forEach( p => {
+            p.style.padding = "20px";
+            p.style.backgroundColor = "#4B7766";
         });
     </script>
 </body>
