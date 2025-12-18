@@ -1,43 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Learning</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        .add{
-            font-size: 16pt;
-            background-color: #4B7766;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            color: white;
-            width: fit-content;
-        }
-    </style>
+    <title>Document</title>
 </head>
 <body>
-    <li class="monkey">Monkey</li>
-    <li>Frog</li>
-    <li class="monkey">Lionel</li>
-    <div class="box">DONE</div>
-    <img src="https://i.pinimg.com/1200x/7d/4a/7a/7d4a7a32265ca2e26e1cb47c246fca9a.jpg" id="img" alt="profile">
+    <div id="product" data-product-id="455" data-price="29.66" data-in-Stock="true"></div>
+
     <script>
-        const list = document.querySelectorAll('li');
-        const ID = document.querySelector('.monkey');
-        const box = document.querySelector('.box');
-        const img = document.getElementById('img');
+        const product = document.getElementById('product');
 
-        console.log(img.src);
-        img.src = "https://i.pinimg.com/1200x/5d/74/d3/5d74d31ac746e683fab94c42010af4c0.jpg"
-
-        box.innerText = "Updated Content"
-
-        ID.classList.add('add')
-
-        list.forEach( items => {
-            items.style.fontSize = '20px';
-            items.style.fontFamily = 'JetBrains Mono'
-        });
+        console.log(product.dataset.productId);
+        console.log(product.dataset.price);
+        console.log(product.dataset.inStock);
     </script>
 </body>
 </html>
