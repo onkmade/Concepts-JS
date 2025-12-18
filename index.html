@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Js</title>
+</head>
+<body>
+    <button id="btn">Button</button>
+    <p id="message">Nothing yet....</p>
+    <script>
+        const btn = document.getElementById('btn');
+        const output = document.getElementById('message');
+
+        btn.addEventListener('click', (event)=> {
+            output.textContent = 'Button was clicked';
+            btn.style.backgroundColor = 'steelblue';
+            console.log(event);
+            console.log(event.target);
+            console.log(event.currentTarget);
+            console.log(event.type);
+            console.log(event.clientX, event.clientY);
+        });
+    </script>
+</body>
+</html>
