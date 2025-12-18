@@ -4,24 +4,34 @@
     <title>Learning</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .add{
+            font-size: 16pt;
+            background-color: #4B7766;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            color: white;
+            width: fit-content;
+        }
+    </style>
 </head>
 <body>
-    <div class="card">Something...</div>
-    <div class="card">Kamin</div>
+    <li class="monkey">Monkey</li>
+    <li>Frog</li>
+    <li class="monkey">Lionel</li>
+    <div class="box">DONE</div>
     <script>
-        const para = document.querySelectorAll('p, .name');
-        const cards = document.querySelectorAll(".card");
-        console.log(cards.length);
+        const list = document.querySelectorAll('li');
+        const ID = document.querySelector('.monkey');
+        const box = document.querySelector('.box');
 
-        cards.forEach( card => {
-            card.style.padding = "20px";
-            card.style.margin = "6px";
-            card.style.backgroundColor = "steelblue";
-        });
+        box.innerText = "Updated Content"
 
-        para.forEach( p => {
-            p.style.padding = "20px";
-            p.style.backgroundColor = "#4B7766";
+        ID.classList.add('add')
+
+        list.forEach( items => {
+            items.style.fontSize = '20px';
+            items.style.fontFamily = 'JetBrains Mono'
         });
     </script>
 </body>
