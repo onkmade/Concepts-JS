@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Todo List App</title>
+  <style>
+    body { font-family: Arial; padding: 20px; max-width: 600px; margin: auto; }
+    input { padding: 10px; width: 70%; font-size: 16px; }
+    button { padding: 10px 20px; font-size: 16px; background: #007bff; color: white; border: none; cursor: pointer; }
+    ul { list-style: none; padding: 0; }
+    li { padding: 10px; background: #f0f0f0; margin: 5px 0; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; }
+    li.completed { text-decoration: line-through; opacity: 0.6; }
+    .delete { color: red; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Todo List</h1>
+  <form id="todoForm">
+    <input type="text" id="todoInput" placeholder="Add a new task" required>
+    <button type="submit">Add</button>
+  </form>
+  <ul id="todoList"></ul>
+
+  <script>
+    const form = document.getElementById('todoForm');
+    const input = document.getElementById('todoInput');
+    const list = document.getElementById('todoList');
+
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    function renderTasks() {
+      list.innerHTML = '';
+      tasks.forEach((task, index) => {
+        const li = document.createElement('li');
+        li.textContent = task.text;
+        if (task.completed) li.classList.add('completed');
+        
+        const deleteBtn = document.createElement('span');
+        deleteBtn.textContent = '×';
+        deleteBtn.classList.add('delete');
+        li.appendChild(deleteBtn);
+        
+        list.appendChild(li);
+      });
+    }
+
+    renderTasks();
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (text) {
+        tasks.push({ text, completed: false });
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        renderTasks();
+        input.value = '';
+      }
+    });
+
+    list.addEventListener('click', (e) => {
+      if (e.target.classList.contains('delete')) {
+        const index = Array.from(list.children).indexOf(e.target.parentElement);
+        tasks.splice(index, 1);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        renderTasks();
+      } else if (e.target.tagName === 'LI') {
+        const index = Array.from(list.children).indexOf(e.target);
+        tasks[index].completed = !tasks[index].completed;
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        renderTasks();
+      }
+    });
+  </script>
+</body>
+</html>
