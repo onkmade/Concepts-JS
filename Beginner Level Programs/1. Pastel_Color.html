@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Pastel Color Generator</title>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        *,
+        *::after,
+        *::before{
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        body{
+            background-color: #F0F2F5;
+            text-decoration: none;
+            list-style: none;
+            font-family: "Poppins";
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100svh;
+            width: 100%;
+            flex-direction: column;
+            padding: 3.5rem;
+        }
+        
+        .wrap{
+            background-color: white;
+            flex: 1;
+            width: 100%;
+            padding: 1rem;
+            border-radius: 1.275rem;
+            box-shadow: 0 0 0 2px rgba(30, 165, 192, 0.1);
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+        }
+
+        header{
+            text-align: center;
+
+            p{
+                font-size: 18pt;
+                color: #2c353f;
+                text-transform: uppercase;
+            }
+        }
+
+        main{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 2rem 0.5rem;
+        }
+
+        .color-park{
+            position: relative;
+            width: 15rem;
+            height: 20rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgb(0,0,0,0.1);
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+        }
+
+        footer{
+            text-align: center;
+
+            button{
+                padding: 0.75rem;
+                font-family: "JetBrains Mono";
+                outline: transparent;
+                border-radius: 0.5rem;
+                border: none;
+                color: white;
+                background-color: steelblue;
+                cursor: pointer;
+                transition: transform 0.2s ease, background-color 0.2s ease;
+
+                &:hover{
+                    background-color: rgb(47, 103, 149);
+                    transform: scale(1.015);
+                }
+                
+                &:active{
+                    background-color: steelblue;
+                    transform: scale(1);
+                    box-shadow: 0 0 0 1px rgb(89, 164, 225);
+                }
+            }
+        }
+
+        .hex-value{
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+            width: calc( 100% - 0.45rem);
+            margin: 0.25rem;
+            margin-bottom: 0.5rem;
+            /* background-color: yellowgreen; */
+            color: #2c353f;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <p>Color Palette Generator</p>
+        </header>
+        <main>
+            <article class="color-park"><p class="hex-value"></p></article>
+            <article class="color-park"><p class="hex-value"></p></article>
+            <article class="color-park"><p class="hex-value"></p></article>
+            <article class="color-park"><p class="hex-value"></p></article>
+            <article class="color-park"><p class="hex-value"></p></article>
+        </main>
+        <footer>
+            <button id="btn">GENERATE PASTEL COLOR</button>
+        </footer>
+    </div>
+
+    <script>
+        function rgb(){
+            const min = 120;
+            const max = 255;
+            const hex = () => Math.floor(Math.random() * (max - min + 1) + min).toString(16).padStart(2, '0');
+            return `#${hex()}${hex()}${hex()}`
+        }
+        
+        const colorpage = document.querySelectorAll('.color-park');
+        const btn = document.getElementById('btn');
+
+        colorpage.forEach( page => {
+            const color = rgb();
+            page.style.backgroundColor = color;
+
+            const hexText = page.querySelector('.hex-value');
+            if(hexText){
+                hexText.textContent = color;
+            }
+        });
+
+        
+        btn.addEventListener('click', ()=> {
+            event.preventDefault();
+            colorpage.forEach( page => {
+                const color = rgb();
+                page.style.backgroundColor = color;
+                
+                const hexText = page.querySelector('.hex-value');
+                if(hexText){
+                    hexText.textContent = color;
+                }
+            });
+            console.log(event.target);
+        });
+
+        // document.body.style.backgroundColor = rgb();
+    </script>
+</body>
+</html>
