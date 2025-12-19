@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: #F0F2F5;
+            color: #455262;
+            font-family: "Poppins";
+            list-style: none;
+        }
+        
+        .add-btn{
+            border: none;
+            outline: none;
+            background-color: #455262;
+            padding: 0.5rem;
+            color: white;
+            font-size: 22pt;
+            width: 60px;
+            height: 60px;
+            border-radius: 0.12rem;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .item{
+            margin: 8px 0;
+            width: 5rem;
+            height: 5rem;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            margin: 8px;
+            margin-right: 8px;
+            color: #455262;
+            position: relative;
+        }
+
+        .minus-btn{
+            position: absolute;
+            right: 0;
+            top: 0;
+            margin: 6px;
+            font-size: 12pt;
+            border: none;
+            border-radius: 0.125rem;
+            cursor: pointer;
+            z-index: 100;
+            
+            svg{
+                height: 18px;
+                width: 18px;
+                vertical-align: middle;
+            }
+        }
+
+        .wrap{
+            display: grid;
+            /* background-color: yellowgreen; */
+            grid-template-columns: repeat(auto-fit, 6.5rem);
+        }
+    </style>
+</head>
+<body>
+    <h2>Add Task</h2>
+    <button id="add-btn" class="add-btn">+</button>
+    <div id="wrap" class="wrap">
+        <!-- <li class="item">
+            <button id="minus-btn" class="minus-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+        </li> -->
+    </div>
+
+    <script>
+        const btn = document.getElementById('add-btn');
+        const minusbtn = document.getElementById('minus-btn');
+        const list = document.getElementById('wrap');
+        
+        function bagcolor(){
+            const min = 100;
+            const max = 255;
+            const r = Math.floor(Math.random() * (max - min + 1) + min);
+            const g = Math.floor(Math.random() * (max - min + 1) + min);
+            const b = Math.floor(Math.random() * (max - min + 1) + min);
+
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+        btn.addEventListener('click', ()=>{
+            const item = document.createElement('li');
+
+            item.classList.add('item');
+            item.style.backgroundColor = bagcolor();
+            item.innerHTML = 
+            `
+            <button id="minus-btn" class="minus-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x">
+                    <path d="M18 6 6 18"/>
+                    <path d="m6 6 12 12"/>
+                </svg>
+            </button>
+            `
+
+            list.append(item);
+        });
+
+        list.addEventListener('click', (e)=> {
+            if(e.target.closest('.minus-btn')){
+                e.target.closest('.item').remove();
+            }
+        });
+        </script>
+</body>
+</html>
