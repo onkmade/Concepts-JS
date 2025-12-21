@@ -36,6 +36,60 @@
             border: 3px solid lightblue;
             border-style: dashed;
             text-align: center;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+        }
+
+        main{
+            display: grid;
+            place-content: center;
+            align-content: center;
+        }
+
+        .color-box{
+            width: 12rem;
+            height: 12rem;
+            background-color: rgb(168, 220, 255);
+            place-content: center;
+            border-radius: 0.25rem;
+        }
+
+        footer{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button{
+            padding: 0.75rem;
+            font-family: "JetBrains Mono";
+            font-size: 12pt;
+            border-radius: 0.25rem;
+            outline: transparent;
+            border: 2px solid rgb(115, 127, 155);
+            background: none;
+            color: #737F9B;
+            cursor: pointer;
+            transition: background-color 0.1s ease-in-out, transform 0.2s ease;
+
+            &:hover{
+                background-color: #737F9B;
+                color: white;
+                transform: scale(1.05);
+            }
+
+            &:active{
+                background-color: #474f64;
+            }
+        }
+
+        .add{
+            background-color: thistle;
+        }
+
+        .remove{
+            background-color: tomato;
         }
 
         p{ font-size: 16pt;}
@@ -44,6 +98,29 @@
 <body>
     <div class="wrap">
         <p>Add and Remove ClassList Methods</p>
+        <main>
+            <div class="color-box" id="box">Click the Buttons to change Methods</div>
+        </main>
+        <footer>
+            <button id="add-color">Add</button>
+            <button id="remove-color">Remove</button>
+        </footer>
     </div>
+
+    <script>
+        const box = document.getElementById('box');
+        const addBtn = document.getElementById('add-color');
+        const removeBtn = document.getElementById('remove-color');
+
+        addBtn.addEventListener('click', ()=>{
+            box.classList.add('add');
+            box.innerHTML = "We Used <strong>Add()</strong> ClassList Method";
+        });
+
+        removeBtn.addEventListener('click', ()=>{
+            box.classList.add('remove');
+            box.innerHTML = `We Used <strong>Remove()</strong> ClassList Method`;
+        });
+    </script>
 </body>
 </html>
