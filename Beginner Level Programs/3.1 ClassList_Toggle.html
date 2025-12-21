@@ -152,6 +152,8 @@
         hideBtn.addEventListener('click', ()=>{
             para.classList.toggle('show-para');
             line.classList.toggle('line-active');
+            const looo = line.classList.contains('line-active');
+            console.log(looo);
             hideBtn.textContent = hideBtn.textContent === 'Hide Para' ? 'Show Para' : 'Hide Para';
         });
     </script>
