@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toggle() Method</title>
+    <style>
+        *,
+        *::after,
+        *::before{
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        body{
+            background-color: #e8eef7;
+            text-decoration: none;
+            list-style: none;
+            font-family: "Poppins";
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100svh;
+            flex-direction: column;
+            padding: 2rem;
+            transition: background-color 0.2s ease;
+        }
+        
+        .wrap{
+            color: #131215;
+            background-color: white;
+            flex: 1;
+            width: 100%;
+            padding: 1rem;
+            border-radius: 1.275rem;
+            border: 3px solid lightblue;
+            border-style: dashed;
+            text-align: center;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            transition: background-color 0.2s ease;
+            place-content: center;
+        }
+
+        button{
+            width: fit-content;
+            background: none;
+            color: #131215;
+            padding: 0.5rem;
+            border: 2px solid #1312159c;
+            outline: none;
+            font-family: "JetBrains Mono";
+            border-radius: 0.25rem;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+
+            &:hover{
+                transform: scale(1.050);
+                cursor: pointer;
+            }
+        }
+
+        .dark-btn{
+            background-color: #131215;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .wrap-dark{
+            background-color: #252329;
+            border: 3px solid rgb(232, 232, 232);
+            border-style: dashed;
+            
+        }
+
+        .dark-body{
+            background-color: #131215;
+        }
+
+        main{
+            margin: 1rem;
+            /* padding: 1rem; */
+            background-color: rgb(225, 226, 227);
+            height: fit-content;
+            width: 20rem;
+            text-align: left;
+            border-radius: 0.5rem;
+            transition: height 0.2s ease, transform 0.2s ease;
+        }
+
+        .para{
+            margin-top: 0.75rem;
+            font-size: 11pt;
+            display: none;
+            transition: width 0.2s ease;
+        }
+
+        p{
+            padding: 12px;
+        }
+
+        .show-para{
+            display: block;
+        }
+        
+        .line-seperator{
+            height: 1px;
+            background-color: white;
+            display: none;
+        }
+
+        .line-active{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap" id="wrap">
+        <header>
+            <button id="mode">Light</button>
+        </header>
+        <main>
+            <p class="heading">What is Lorem Ipsum</p>
+            <li class="line-seperator" id="line-seperator"></li>
+            <p id="para" class="para">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, aspernatur ratione. Magnam officia a aliquam vel et provident mollitia distinctio.
+            </p>
+        </main>
+        <footer>
+            <button id="hidepara">Hide Para</button>
+        </footer>
+    </div>
+
+    <script>
+        const wrap = document.getElementById('wrap');
+        const Mode = document.getElementById('mode');
+        const body = document.querySelector('body');
+        const para = document.getElementById('para');
+        const hideBtn = document.getElementById('hidepara');
+        const line = document.getElementById('line-seperator');
+
+        
+
+        Mode.addEventListener('click', ()=>{
+            Mode.classList.toggle('dark-btn');
+            wrap.classList.toggle('wrap-dark');
+            body.classList.toggle('dark-body');
+            Mode.textContent = Mode.textContent === 'Light' ? 'Dark' : 'Light';
+            hideBtn.classList.toggle('dark-btn');
+        });
+
+        hideBtn.addEventListener('click', ()=>{
+            para.classList.toggle('show-para');
+            line.classList.toggle('line-active');
+            hideBtn.textContent = hideBtn.textContent === 'Hide Para' ? 'Show Para' : 'Hide Para';
+        });
+    </script>
+</body>
+</html>
