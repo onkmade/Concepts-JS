@@ -104,6 +104,7 @@
         <footer>
             <button id="add-color">Add</button>
             <button id="remove-color">Remove</button>
+            <button id="reset">Reset</button>
         </footer>
     </div>
 
@@ -111,6 +112,7 @@
         const box = document.getElementById('box');
         const addBtn = document.getElementById('add-color');
         const removeBtn = document.getElementById('remove-color');
+        const resetBtn = document.getElementById('reset');
 
         addBtn.addEventListener('click', ()=>{
             box.classList.add('add');
@@ -120,6 +122,11 @@
         removeBtn.addEventListener('click', ()=>{
             box.classList.add('remove');
             box.innerHTML = `We Used <strong>Remove()</strong> ClassList Method`;
+        });
+
+        resetBtn.addEventListener('click', ()=>{
+            box.classList.remove('add', 'remove');
+            box.textContent = "We've reset using remove";
         });
     </script>
 </body>
