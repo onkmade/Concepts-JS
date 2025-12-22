@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boolean Properties</title>
+    <style>
+        *,
+        *::after,
+        *::before{
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        body{
+            background-color: #e8eef7;
+            text-decoration: none;
+            list-style: none;
+            font-family: "Poppins";
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100svh;
+            flex-direction: column;
+            padding: 2rem;
+            transition: background-color 0.2s ease;
+        }
+        
+        .wrap{
+            color: #131215;
+            background-color: white;
+            flex: 1;
+            width: 100%;
+            padding: 1rem;
+            border-radius: 1.275rem;
+            border: 3px solid lightblue;
+            border-style: dashed;
+            text-align: center;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            transition: background-color 0.2s ease;
+            place-content: center;
+        }
+
+        header p{
+            font-size: 16pt;
+        }
+
+        main{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        form{
+            display: grid;
+            text-align: left;
+            gap: 0.5rem;
+        }
+        
+        input{
+            vertical-align: middle;
+            margin: 0 8px;
+        }
+
+        button{
+            width: fit-content;
+            background: none;
+            color: #131215;
+            padding: 0.5rem;
+            border: 2px solid #1312159c;
+            outline: none;
+            font-family: "JetBrains Mono";
+            border-radius: 0.25rem;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            
+            &:hover{
+                transform: scale(1.050);
+                cursor: pointer;
+            }
+
+            &:active{
+                transform: scale(1);
+            }
+        }
+
+        footer{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .color-text{
+            color: rosybrown;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header><p>Learning Boolean Properties in the DOM</p></header>
+        <main>
+            <form action="/">
+                <label class="labels"><input type="checkbox" name="JS" id="js">Javascript</label>
+                <label class="labels"><input type="checkbox" name="" id="C">C-lang</label>
+                <label class="labels"><input type="checkbox" name="" id="HTML">HTML</label>
+                <label class="labels"><input type="checkbox" name="" id="CSS">CSS</label>
+            </form>
+            <p id="status" ></p>
+        </main>
+        <footer>
+            <button id="show-status">Show Status</button>
+            <button id="Enable">Enable</button>
+        </footer>
+    </div>
+
+    <script>
+        const JS = document.getElementById('js');
+        const C = document.getElementById('C');
+        const htmlBox = document.getElementById('HTML');
+        const cssBox = document.getElementById('CSS');
+        
+        const showBtn = document.getElementById('show-status');
+        const enableBtn = document.getElementById('Enable');
+        const status = document.getElementById('status');
+        
+        const labels = document.querySelectorAll('labels');
+        
+        showBtn.addEventListener('click', () => {
+        const selected = [JS, C, htmlBox, cssBox]
+            .filter(cb => cb.checked)
+            .map(cb => {
+              if (cb === JS) return 'Javascript';
+              if (cb === C) return 'C-lang';
+              if (cb === htmlBox) return 'HTML';
+              if (cb === cssBox) return 'CSS';
+            });
+        
+            status.textContent = selected.length 
+                ? `Ohh! You know ${selected.join(", ")}` 
+                : "Nothing is selected";
+        
+
+            labels.forEach(label => {
+                label.classList.toggle('color-text', selected.length > 0);
+            });
+        });
+    </script>
+</body>
+</html>
