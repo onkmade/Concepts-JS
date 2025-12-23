@@ -38,12 +38,13 @@
             border-style: dashed;
             display: grid;
             grid-template-rows: auto 1fr auto;
-            transition: background-color 0.2s ease;
+            transition: background-color 0.5s ease;
             place-content: center;
         }
 
         header p{
             font-size: 16pt;
+            text-align: center;
         }
 
         main{
@@ -55,7 +56,47 @@
         }
 
         .FAQ-panel{
-            width: 15rem;
+            width: 25rem;
+        }
+
+        details.faq-item{
+            cursor: pointer;
+            padding: 0.5rem;
+            margin: 8px 0;
+            background-color: #e6e6e6;
+            border-radius: 0.35rem;
+            overflow: hidden;
+        }
+
+        .content {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, opacity 0.5s ease;
+        }
+
+        .para{
+            cursor:auto;
+            margin-top: 0.75rem;
+            color: #434141;
+        }
+
+        summary{
+            font-weight: 500;
+            list-style: none;
+            display: flex;
+        } 
+
+        summary::after{
+            content: '+';
+            font-weight: 500;
+            margin-left: auto;
+            margin-right: 8px;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        details[open] > summary::after{
+            transform: rotate(45deg);
         }
     </style>
 </head>
@@ -66,28 +107,34 @@
         </header>
         <main>
             <div class="FAQ-panel">
-                <details>
+                <details name="faq" class="faq-item">
                     <summary>What is HTML and CSS?</summary>
-                    <div class="para">
-                        <p>
-                            HTML and CSS are the foundational technologies for building web pages, working together to provide structure (HTML) and visual style (CSS).
-                        </p>
+                    <div class="content">
+                        <div class="para">
+                            <p>
+                                HTML and CSS are the foundational technologies for building web pages, working together to provide structure (HTML) and visual style (CSS).
+                            </p>
+                        </div>
                     </div>
                 </details>
-                <details>
+                <details name="faq" class="faq-item">
                     <summary>What is Javascript?</summary>
-                    <div class="para">
-                        <p>
-                            JavaScript is a scripting language that enables you to create dynamically updating content, control multimedia, animate images, and pretty much
-                        </p>
+                    <div class="content">
+                        <div class="para">
+                            <p>
+                                JavaScript is a scripting language that enables you to create dynamically updating content, control multimedia, animate images, and pretty much
+                            </p>
+                        </div>
                     </div>
                 </details>
-                <details>
+                <details name="faq" class="faq-item">
                     <summary>What is AccordionFAQ</summary>
-                    <div class="para">
-                        <p>
-                            An Accordion FAQ is a web design pattern that stacks frequently asked questions (FAQs) vertically, allowing users to click a question (header) to expand and reveal its answer in a collapsible panel
-                        </p>
+                    <div class="content">
+                        <div class="para">
+                            <p>
+                                An Accordion FAQ is a web design pattern that stacks frequently asked questions (FAQs) vertically, allowing users to click a question (header) to expand and reveal its answer in a collapsible panel
+                            </p>
+                        </div>
                     </div>
                 </details>
             </div>
@@ -96,5 +143,20 @@
 
         </footer>
     </div>
+
+    <script>
+        document.querySelectorAll('details.faq-item').forEach(detail => {
+            detail.addEventListener('toggle', function() {
+                const content = this.querySelector('.content');
+                if (this.open) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    content.style.opacity = '1';
+                } else {
+                    content.style.maxHeight = '0';
+                    content.style.opacity = '0';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
