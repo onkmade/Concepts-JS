@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *,
+        *::after,
+        *::before{
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        body{
+            background-color: #e8eef7;
+            text-decoration: none;
+            list-style: none;
+            font-family: "Poppins";
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100svh;
+            flex-direction: column;
+            padding: 2rem;
+            transition: background-color 0.2s ease;
+        }
+        
+        .wrap{
+            color: #131215;
+            background-color: white;
+            flex: 1;
+            width: 100%;
+            padding: 1rem;
+            border-radius: 1.275rem;
+            border: 3px solid lightblue;
+            border-style: dashed;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            transition: background-color 0.2s ease;
+            place-content: center;
+        }
+
+        header p{
+            font-size: 16pt;
+        }
+
+        main{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .FAQ-panel{
+            width: 15rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <p>Learning AccordionFAQ UI</p>
+        </header>
+        <main>
+            <div class="FAQ-panel">
+                <details>
+                    <summary>What is HTML and CSS?</summary>
+                    <div class="para">
+                        <p>
+                            HTML and CSS are the foundational technologies for building web pages, working together to provide structure (HTML) and visual style (CSS).
+                        </p>
+                    </div>
+                </details>
+                <details>
+                    <summary>What is Javascript?</summary>
+                    <div class="para">
+                        <p>
+                            JavaScript is a scripting language that enables you to create dynamically updating content, control multimedia, animate images, and pretty much
+                        </p>
+                    </div>
+                </details>
+                <details>
+                    <summary>What is AccordionFAQ</summary>
+                    <div class="para">
+                        <p>
+                            An Accordion FAQ is a web design pattern that stacks frequently asked questions (FAQs) vertically, allowing users to click a question (header) to expand and reveal its answer in a collapsible panel
+                        </p>
+                    </div>
+                </details>
+            </div>
+        </main>
+        <footer>
+
+        </footer>
+    </div>
+</body>
+</html>
