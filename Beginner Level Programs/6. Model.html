@@ -56,6 +56,7 @@
         }
 
         button{
+            user-select: none;
             width: fit-content;
             color: #131215;
             padding: 0.5rem;
@@ -116,12 +117,14 @@
         .card-active{
             opacity: 1;
             visibility: visible;
+            pointer-events: auto;
         }
     </style>
 </head>
 <body>
     <div class="wrap">
         <header>
+            <button id="ok">OK</button>
             <p>Modal Pop-up window</p>
         </header>
         <main>
@@ -158,7 +161,11 @@
             };
 
             closeBtn.addEventListener('click', close);
-            
+
+            backdropModal.addEventListener('click', (e)=>{
+                if( e.target === backdropModal) close();
+                console.log(e.target, e.currentTarget);
+            });
             console.log(openBtn, backdropModal, modalCard);
         });
     </script>
