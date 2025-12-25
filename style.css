@@ -65,3 +65,10 @@ button{
         transform: scale(1);
     }
 }
+
+li.item{
+    text-decoration: none;
+    list-style: none;
+    text-align: left;
+    padding: 0.45rem;
+}

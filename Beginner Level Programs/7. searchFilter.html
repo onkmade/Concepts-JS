@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .search-input{
+            width: 25rem;
+            color: #131215;
+            padding: 0.5rem;
+            border: 2px solid #1312159c;
+            outline: none;
+            font-family: "JetBrains Mono";
+            border-radius: 0.25rem;
+        }
+
+        .search{
+            position: fixed;
+            border-radius: 0.25rem;
+        }
+
+        li.item{
+            text-decoration: none;
+            list-style: none;
+            text-align: left;
+            padding: 0.45rem;
+            background-color: #F0F2F5;
+            margin: 4px;
+            border-radius: 6px;
+        }
+
+        #Task-list{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <p>Learning Real-Time Search</p>
+        </header>
+        <main>
+            <div class="search">
+                <input type="search" class="search-input" placeholder="Search">
+                <button id="search">Search</button>
+                <ul id="Task-list">
+                    <li class="item">Pokemon</li>
+                    <li class="item">Doreamon</li>
+                    <li class="item">Movies to Watch</li>
+                    <li class="item">Avatar 3: Fire and Ash</li>
+                    <li class="item">The One Piece</li>
+                    <li class="item">How to make a Search Bar</li>
+                    <li class="item">How to make a cake</li>
+                    <li class="item">Where to watch anime</li>
+                    <li class="item">Best Anime of All type</li>
+                    <li class="item">Orhanages</li>
+                    <li class="item">Gurren Lagaan Arts</li>
+                </ul>
+            </div>
+        </main>
+        <footer></footer>
+    </div>
+
+    <script>
+        const searchInput = document.querySelector('.search-input');
+        const taskList = document.getElementById('Task-list');
+        const items = document.querySelectorAll('.item');
+
+        
+    </script>
+</body>
+</html>
