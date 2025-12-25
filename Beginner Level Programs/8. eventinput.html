@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        #search-input{
+            width: 25rem;
+            color: #131215;
+            padding: 0.5rem;
+            border: 2px solid #1312159c;
+            outline: none;
+            font-family: "JetBrains Mono";
+            border-radius: 0.25rem;
+        }
+
+        .search{
+            position: fixed;
+            border-radius: 0.25rem;
+        }
+
+        #heading{
+            font-size: 20pt;
+            color: darkseagreen;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <p>Learning inputs</p>
+        </header>
+        <main>
+            <p id="heading"></p>
+            <input type="search" id="search-input" placeholder="Type Your Name">
+        </main>
+        <footer></footer>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('search-input');
+        const heading = document.getElementById('heading');
+
+        searchInput.addEventListener('input', (e) => {
+            heading.innerHTML = `Hello, ${e.target.value}`;
+        });
+    </script>
+</body>
+</html>

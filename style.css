@@ -66,9 +66,3 @@ button{
     }
 }
 
-li.item{
-    text-decoration: none;
-    list-style: none;
-    text-align: left;
-    padding: 0.45rem;
-}
