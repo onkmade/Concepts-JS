@@ -34,17 +34,38 @@
         </header>
         <main>
             <p id="heading"></p>
-            <input type="search" id="search-input" placeholder="Type Your Name">
+            <input type="text" id="search-input" placeholder="Type Your Name">
+            <input type="checkbox" name="" id="checkbox">
+            <p id="message"></p>
         </main>
         <footer></footer>
     </div>
 
     <script>
         const searchInput = document.getElementById('search-input');
+        const checkbox = document.getElementById('checkbox');
         const heading = document.getElementById('heading');
 
         searchInput.addEventListener('input', (e) => {
+            // console.log(`Event Type: ${event.type}`); // Input
+            // console.log(`Input Type: ${event.inputType}`); // insertText
+            // console.log(`Data Inserted: ${event.data}`); // Each letter when typing
+            console.log(`Current Value: ${event.target.value}`); //complete word
             heading.innerHTML = `Hello, ${e.target.value}`;
+        });
+
+        searchInput.addEventListener('change',(e)=>{
+            console.log(`Change event: ${event.target.value}`);
+        });
+
+
+        checkbox.addEventListener('change', (e) =>{
+            let query = checkbox.checked;
+            if(query){
+                document.getElementById('message').textContent = `checkbox is clicked`;
+            } else {
+                document.getElementById('message').textContent = `checkbox is not clicked`;
+            }
         });
     </script>
 </body>
