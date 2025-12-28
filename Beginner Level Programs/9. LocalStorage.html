@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Local storage</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <p>Learning Local Storage</p>
+        </header>
+        <main>
+            <label for="">What's your name</label>
+            <input type="text" id="nameInput" placeholder="Type Name">
+            <button id="save">Save</button>
+            <p id="message">Hello, Stranger</p>
+        </main>
+        <footer></footer>
+    </div>
+
+    <script>
+        const userName = document.getElementById('nameInput');
+        const saveBtn = document.getElementById('save');
+        const message = document.getElementById('message');
+        
+        const savedName = localStorage.getItem('username');
+        if(savedName){
+            message.textContent = `Hello, ${savedName}`;
+            userName.value = savedName;
+            userName.value = '';
+        }
+        
+        saveBtn.addEventListener('click', ()=>{
+            const name = userName.value.trim();
+            if(name){
+                localStorage.setItem('username', name);
+                message.textContent = `Hello, ${name}`;
+                console.log(`Saved the name, refresh and close the tabs now!!`);
+            }
+            userName.value = ''; // Clear the name from the input
+        });
+    </script>
+</body>
+</html>
