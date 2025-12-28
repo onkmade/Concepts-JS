@@ -17,6 +17,7 @@ body{
     flex-direction: column;
     padding: 2rem;
     transition: background-color 0.2s ease;
+    color: #131215;
 }
 
 .wrap{
@@ -66,3 +67,11 @@ button{
     }
 }
 
+input{
+    width: 25rem;
+    border: 2px solid #1312159c;
+    outline: none;
+    font-family: "JetBrains Mono";
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+}
