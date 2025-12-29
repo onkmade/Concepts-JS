@@ -6,6 +6,22 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <div class="wrap">
+        <button id="btn">Width-THIS</button>
+        <div id="tab-line"></div>
+    </div>
+
+    <script>
+        const btn = document.getElementById('btn');
+        const line = document.getElementById('tab-line');
+
+        function UpdateLine(activeLine){
+            line.style.width = `${activeLine.offsetWidth}px`;
+            line.style.left = `${activeLine.offsetLeft}px`;
+        }
+
+        UpdateLine();
+        console.log(UpdateLine(btn));
+    </script>
 </body>
 </html>
