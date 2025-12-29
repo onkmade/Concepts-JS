@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist FAQ Accordion</title>
+    <style>
+        /* CSS Variables for Easy Customization */
+        :root {
+            --bg-color: #f9f9fb;
+            --container-bg: #ffffff;
+            --text-main: #1a1a1a;
+            --text-muted: #666666;
+            --accent: #2563eb; /* Modern Blue */
+            --border: #e5e7eb;
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
+            margin: 0;
+        }
+
+        .faq-container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--container-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            padding: 1rem 2rem;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--text-main);
+            margin-bottom: 2rem;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        /* The Button Header */
+        .accordion-header {
+            width: 100%;
+            padding: 1.25rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            outline: none;
+            transition: color var(--transition-speed);
+        }
+
+        .accordion-header span {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--text-main);
+            transition: color var(--transition-speed);
+        }
+
+        .accordion-header:hover span {
+            color: var(--accent);
+        }
+
+        /* Plus/Minus Icon using CSS Pseudo-elements */
+        .icon {
+            position: relative;
+            width: 16px;
+            height: 16px;
+        }
+
+        .icon::before, .icon::after {
+            content: "";
+            position: absolute;
+            background-color: var(--text-main);
+            transition: transform var(--transition-speed), opacity var(--transition-speed);
+        }
+
+        /* Horizontal line */
+        .icon::before {
+            width: 100%;
+            height: 2px;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        /* Vertical line */
+        .icon::after {
+            width: 2px;
+            height: 100%;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+        }
+
+        /* Active State Icon Transformation */
+        .accordion-item.active .icon::after {
+            transform: translateX(-50%) rotate(90deg);
+            opacity: 0;
+        }
+
+        .accordion-item.active .icon::before {
+            background-color: var(--accent);
+        }
+
+        /* Content Transition Logic */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .content-inner {
+            padding-bottom: 1.5rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="faq-container">
+        <h2>Frequently Asked Questions</h2>
+
+        <!-- Item 1 -->
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span>What are the shipping costs?</span>
+                <div class="icon"></div>
+            </button>
+            <div class="accordion-content">
+                <div class="content-inner">
+                    We offer free standard shipping on all orders over $50. For orders under $50, a flat rate of $5.99 applies nationwide.
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span>How long does delivery take?</span>
+                <div class="icon"></div>
+            </button>
+            <div class="accordion-content">
+                <div class="content-inner">
+                    Standard shipping usually takes 3-5 business days. Express shipping is available at checkout and typically arrives within 1-2 business days.
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span>Can I change my order after it's placed?</span>
+                <div class="icon"></div>
+            </button>
+            <div class="accordion-content">
+                <div class="content-inner">
+                    Orders can be modified within 1 hour of placement. Please contact our support team immediately via live chat or email to request changes.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const item = header.parentElement; // That's "Accordion-Item"
+                    const content = item.querySelector('.accordion-content');
+                    const isActive = item.classList.contains('active');
+
+                    // 1. Close all other items (Exclusive Accordion)
+                    document.querySelectorAll('.accordion-item').forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                            otherItem.querySelector('.accordion-content').style.maxHeight = 0;
+                        }
+                    });
+
+                    // 2. Toggle current item
+                    if (!isActive) {
+                        item.classList.add('active');
+                        // Use scrollHeight to get the exact height of the hidden text
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    } else {
+                        item.classList.remove('active');
+                        content.style.maxHeight = 0;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
