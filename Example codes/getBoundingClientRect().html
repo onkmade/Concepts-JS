@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Super Simple getBoundingClientRect Example</title>
+<style>
+  body {
+    margin: 0;
+    padding: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f8f9fa;
+  }
+
+  .box {
+    width: 200px;
+    height: 120px;
+    background-color: #4dabf7;
+    color: white;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 8px solid #228be6;
+    border-radius: 10px;
+    margin: 60px auto;
+  }
+</style>
+</head>
+<body>
+
+  <h2>What does getBoundingClientRect() tell us?</h2>
+
+  <div class="box" id="myBox">Look at me!</div>
+
+  <div style="text-align:center; margin-top: 40px; font-family: monospace;">
+    <p>Left position:   <strong id="left">?</strong> px</p>
+    <p>Top position:    <strong id="top">?</strong> px</p>
+    <p>Width:           <strong id="width">?</strong> px</p>
+    <p>Height:          <strong id="height">?</strong> px</p>
+    <p>Right edge:      <strong id="right">?</strong> px</p>
+    <p>Bottom edge:     <strong id="bottom">?</strong> px</p>
+  </div>
+
+  <button onclick="showInfo()">Show my position & size!</button>
+
+  <script>
+    function showInfo() {
+      const box = document.getElementById('myBox');
+      
+      // This is the magic line!
+      const rect = box.getBoundingClientRect();
+
+      document.getElementById('left').textContent   = Math.round(rect.left);
+      document.getElementById('top').textContent    = Math.round(rect.top);
+      document.getElementById('width').textContent  = Math.round(rect.width);
+      document.getElementById('height').textContent = Math.round(rect.height);
+      document.getElementById('right').textContent  = Math.round(rect.right);
+      document.getElementById('bottom').textContent = Math.round(rect.bottom);
+    }
+
+    // Show info automatically when page loads
+    window.addEventListener('load', showInfo);
+  </script>
+
+</body>
+</html>

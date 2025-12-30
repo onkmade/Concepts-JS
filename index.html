@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box3" style="
+      width: 300px;
+      height: 120px;
+      background: #fff3e0;
+      border: 6px solid #FF9800;
+      transform: scale(0.5);
+      transform-origin: top left;
+      margin: 40px;
+    ">Scaled 50%</div>
+    
+    <script>
+    const b = document.querySelector('#box3');
+    console.log("offsetWidth:",           b.offsetWidth);              // 312          ← original size!
+    console.log("getBoundingClientRect:", b.getBoundingClientRect().width); // ~156   ← visual size after scale
+    </script>
+</body>
+</html>
