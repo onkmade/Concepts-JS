@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>getBoundingClientRect Example</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .box{
+            width: 20rem;
+            height: 10rem;
+            background-color: thistle;
+            border-radius: 0.5rem;
+        }
+
+        .text{
+            text-align: start;
+            display: grid;
+            gap: 0.35rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <p>getBoundingClientRect Example</p>
+        </header>
+        <main>
+            <div class="box" id="box"></div>
+            <div class="text">
+                <p>Left Position: <strong id="left">?</strong></p>
+                <p>Right Position: <strong id="right">?</strong></p>
+                <p>Top Position: <strong id="top">?</strong></p>
+                <p>Bottom Position: <strong id="bottom">?</strong></p>
+                <p>x Position: <strong id="x">?</strong></p>
+                <p>y Position: <strong id="y">?</strong></p>
+                <p>width: <strong id="width">?</strong></p>
+                <p>height <strong id="height">?</strong></p>
+            </div>
+        </main>
+        <footer></footer>
+    </div>
+
+    <script>
+        const box = document.getElementById('box');
+        const left = document.getElementById('left');
+        const right = document.getElementById('right');
+        const top = document.getElementById('top');
+        const bottom = document.getElementById('bottom');
+        const x = document.getElementById('x');
+        const y = document.getElementById('y');
+        const width = document.getElementById('width');
+        const height = document.getElementById('height');
+
+        
+    </script>
+</body>
+</html>
