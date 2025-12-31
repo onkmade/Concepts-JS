@@ -14,9 +14,18 @@
         }
 
         .text{
-            text-align: start;
+            width: 100%;
+            text-align: left;
             display: grid;
             gap: 0.35rem;
+            p{
+                display: flex;
+
+            }
+        }
+
+        strong{
+            margin-left: auto;
         }
     </style>
 </head>
@@ -38,21 +47,32 @@
                 <p>height <strong id="height">?</strong></p>
             </div>
         </main>
-        <footer></footer>
+        <footer>
+            <button id="show">show</button>
+        </footer>
     </div>
 
     <script>
         const box = document.getElementById('box');
-        const left = document.getElementById('left');
-        const right = document.getElementById('right');
-        const top = document.getElementById('top');
-        const bottom = document.getElementById('bottom');
-        const x = document.getElementById('x');
-        const y = document.getElementById('y');
-        const width = document.getElementById('width');
-        const height = document.getElementById('height');
+        const showBtn =document.getElementById('show');
 
-        
+        console.log(box.getBoundingClientRect());
+        const b = box.getBoundingClientRect();
+
+        showBtn.addEventListener('click', ()=>{
+            document.getElementById('left').textContent = Math.round(b.left) + 'px';
+            document.getElementById('right').textContent = Math.round(b.right) + 'px';
+            document.getElementById('top').textContent = Math.round(b.top) + 'px';
+            document.getElementById('bottom').textContent = Math.round(b.bottom) + 'px';
+            document.getElementById('x').textContent = Math.round(b.x) + 'px';
+            document.getElementById('y').textContent = Math.round(b.y) + 'px';
+            document.getElementById('width').textContent = Math.round(b.width) + 'px';
+            document.getElementById('height').textContent = Math.round(b.height) + 'px';
+
+            console.log(box.offsetWidth);
+            console.log(box.clientWidth);
+            console.log(box.scrollHeight);
+        });
     </script>
 </body>
 </html>
