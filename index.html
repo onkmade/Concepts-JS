@@ -1,25 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Document</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .card{
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            width: 13rem;
+            border: 1px solid rgb(193, 193, 193) ;
+            box-shadow: 0 0 0 2px rgba(193, 193, 193, 0.174);
+            position: relative;
+            background-color: white;
+
+            button{
+                margin: 1rem 0;
+            }
+
+            nav > ul {
+                list-style: none;
+                text-align: start;
+            }
+
+            ::before{
+                content: " ";
+                inset: 0;
+                position: absolute;
+                background-color: yellowgreen;
+                border-radius: inherit;
+                top: -100px;
+                z-index: -1;
+            }
+        }
+
+    </style>
 </head>
 <body>
-    <div id="box3" style="
-      width: 300px;
-      height: 120px;
-      background: #fff3e0;
-      border: 6px solid #FF9800;
-      transform: scale(0.5);
-      transform-origin: top left;
-      margin: 40px;
-    ">Scaled 50%</div>
-    
-    <script>
-    const b = document.querySelector('#box3');
-    console.log("offsetWidth:",           b.offsetWidth);              // 312          ← original size!
-    console.log("getBoundingClientRect:", b.getBoundingClientRect().width); // ~156   ← visual size after scale
-    </script>
+    <div class="wrap">
+        <header>
+            <p>Just a card seen on Pinterest</p>
+        </header>
+        <main>
+            <div class="card">
+                <div class="info">This is going to be the card of te universe</div>
+                <button id="btn">Talk to Universe</button>
+                <nav>
+                    <ul>
+                        <li>PANDORA</li>
+                        <li>FIND</li>
+                        <li>AVATAR</li>
+                        <li>JAKE SULLY</li>
+                    </ul>
+                </nav>
+            </div>
+        </main>
+        <footer></footer>
+    </div>
 </body>
 </html>
