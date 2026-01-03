@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storing an ID and using it in a click event</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        ul{
+            list-style: none;
+            text-align: start;
+
+            > li{
+                background-color: #e7eceb;
+                padding: 0.5rem;
+                width: 25rem;
+                margin: 8px 0;
+                border-radius: 0.25rem;
+                cursor: pointer;
+
+                &:active{
+                    border: 2px solid #3e424150;
+                    background-color: #d8e5e2;
+                }
+            }
+        }
+
+        .message{
+            background-color: #e7eceb;
+            padding: 0.5rem;
+            width: 25rem;
+            margin: 1rem 0;
+            border-radius: 0.25rem;
+            border: 2px solid #3e424150;
+            display: none;
+        }
+
+        .active{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <p>This is something good</p>
+        </header>
+        <main>
+            <div class="container">
+                <ul>
+                    <li class="item" data-product-Id="0x3">Laptop HP - $1400</li>
+                    <li class="item" data-product-Id="0x53">Wireless Mouse - $21</li>
+                    <li class="item" data-product-Id="0x34">Samsung phone - $45</li>
+                </ul>
+                <p id="message" class="message"></p>
+            </div>
+        </main>
+        <footer></footer>
+    </div>
+
+    <!-- Script Goes here -->
+    <script>
+        const message = document.getElementById('message');
+        const item = document.querySelectorAll('.item');
+
+        item.forEach( product => {
+            product.addEventListener('click', (e)=>{
+                const prod = e.target.closest('.item');
+                
+                if(prod){
+                    message.classList.add('active');
+                    const id = prod.dataset.productId;
+                    message.textContent = `This product has the ID: ${id}`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
