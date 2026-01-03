@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>data-* Example 1</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 40px;
+  }
+  .product {
+    border: 1px solid #ccc;
+    padding: 16px;
+    margin: 12px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    max-width: 320px;
+  }
+  .product:hover {
+    background-color: #f0f8ff;
+  }
+</style>
+</head>
+<body>
+
+  <h2>Click any product to see its ID</h2>
+
+  <div class="product" data-product-id="p001">Wireless Mouse - $29</div>
+  <div class="product" data-product-id="p002">Mechanical Keyboard - $89</div>
+  <div class="product" data-product-id="p007">USB-C Cable 2m - $12</div>
+
+  <p id="result">Click a product ↑</p>
+
+  <script>
+    // We listen on the parent (container) → event delegation
+    document.body.addEventListener('click', function(event) {
+      // Find the nearest element that has data-product-id
+      const product = event.target.closest('.product');
+      
+      if (product) {
+        // dataset.productId reads data-product-id
+        const id = product.dataset.productId;
+        document.getElementById('result').textContent = 
+          `You clicked product with ID: ${id}`;
+      }
+    });
+  </script>
+
+</body>
+</html>
