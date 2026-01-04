@@ -4,83 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        *,
-        *::after,
-        *::before{
-            box-sizing: border-box;
-            padding: 0;
-            margin: 0;
-        }
-
-        body{
-            list-style: none;
-            font-family: "Poppins";
-        }
-
-        .card{
-            margin: 2rem;
-            display: grid;
-            gap: 1rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            width: 13rem;
-            border: 1px solid rgb(193, 193, 193) ;
-            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
-            position: relative;
-            background-color: white;
-            transition: transform 0.25s ease;
-        }
-
-        main{
-            display: grid;
-            text-align: center;
-            gap: 0.5rem;
-        }
-
-        .card::after{
-            content: 'Shit, worked';
-            font-size: 10pt;
-            text-align: center;
-            color: white;
-            background:linear-gradient(to top,
-            rgba(0, 0, 0, 0),
-            steelblue
-            );
-            position: absolute;
-            left: 0;
-            top: 0;
-            transform: scale(1);
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            border-radius: 0.5rem;
-            transition: transform 0.2s ease-in-out, top 0.2s ease-in-out;
-        }
-
-        .card:hover::after{
-            top: -20px;
-            transform: scale(1.035);
-        }
-
-    </style>
+    <link rel="stylesheet" href="/example.css">
 </head>
 <body>
-    <div class="card">
-        <header>THIS IS MAN</header>
-        <main>
-            <button id="btn">Nothing</button>
-            <nav>
-                <li>JAKE SULLY's WIFE</li>
-                <li>BLUE PEACH</li>
-                <li>RAVAN</li>
-                <li>RANGER</li>
-            </nav>
-        </main>
-        <footer>
-            SOmething silly
-        </footer>
+
+    <div class="container">
+        <h1>Let me help you<sup class="tag">(services)</sup></h1>
+        <div class="down">
+            <div class="left">
+                <div class="menu">
+                    <div class="hover-line"></div>
+                    <div class="menu-item" data-img="web">
+                        <span class="num"><sup>(01)</sup></span>Web Design
+                    </div>
+                    <div class="menu-item" data-img="framer">
+                        <span class="num"><sup>(02)</sup></span>Framer Development
+                    </div>
+                    <div class="menu-item" data-img="brand">
+                        <span class="num"><sup>(03)</sup></span>Branding
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <img id="preview" src="" alt="">
+            </div>
+        </div>
     </div>
+
+    <script src="/example.js"></script>
 </body>
 </html>

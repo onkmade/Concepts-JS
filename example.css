@@ -1,0 +1,140 @@
+*,
+*::after,
+*::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #F0F2F5;
+    font-family: "Poppins";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100svh;
+}
+
+.container {
+    display: grid;
+    width: fit-content;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0 3px white, 0 4px 16px rgb(0, 0, 0, 0.1);
+    border: 2px solid #F0F2F5;
+}
+
+.container h1{
+    color: #636363;
+    padding: 1rem 1.5rem;
+    font-weight: 500;
+    font-size: 1.5rem;
+    border-radius: 0.5rem;
+    border-bottom: 1px solid #63636330;
+}
+
+.container .tag{
+    font-size: 10pt;
+    margin-left: 0.5rem;
+}
+
+.down{
+    display: flex;
+    padding: 1rem;
+    border-left: #2375f2;
+}
+
+/* LEFT SIDE */
+.left {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items: start;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* the smooth moving line */
+.hover-line {
+  position: absolute;
+  left: 0;
+  width: 2px;
+  border-radius: 50rem;
+  height: 100%;
+  max-height: 4rem;
+  background: rgb(74, 74, 74);
+  top: 0;
+  transition: top 0.25s ease;
+}
+
+/* MENU ITEM + NUMBER */
+.menu-item {
+    width: 19rem;
+  font-size: 1.25rem;
+  font-weight: 200;
+  cursor: pointer;
+  position: relative;
+  padding: 2rem 0.85rem;
+  color: #636363;
+  /* background-color: yellowgreen; */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  transform-origin: left;
+  border-bottom: 1px solid #63636330;
+  transition: transform 0.3s ease-in-out;
+}
+
+.menu-item:last-child{
+    border: none;
+}
+
+.menu-item sup{
+    color: #636363;
+    font-size: 9pt;
+    opacity: 0.6;
+}
+
+.menu-item:hover {
+    transform: scale(1.025);
+    font-weight: 500;
+    color: rgb(47, 46, 46);
+}
+
+/* RIGHT SIDE */
+.right {
+    width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+/* IMAGE BASE STYLE */
+.right img {
+    width: 15rem;
+    height: 15rem;
+    object-fit: cover;
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* direction-aware classes */
+.right img.up {
+  transform: translateY(-40px);
+}
+
+.right img.down {
+  transform: translateY(40px);
+}
+
+.right img.active {
+  opacity: 1;
+  transform: translateY(0);
+}
