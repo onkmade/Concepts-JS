@@ -1,3 +1,5 @@
-const list = ["milk", "bread", "Apples"];
-list.splice(2, 0, "kiwi", "banana");
-console.log(list);
+let one = ["something", "news", "aaru"];
+let two = ["harshu", "nothing", "pride"];
+let result = one.concat(two); // add array "two" into "one"
+console.log(result);
+let result2 = result.concat("Manisha", "Laxmi");
