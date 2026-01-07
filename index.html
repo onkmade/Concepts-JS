@@ -1,64 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Document</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style.css">
+    <title>Document</title>
     <style>
-        .card{
-            display: grid;
-            gap: 1rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            width: 13rem;
-            border: 1px solid rgb(193, 193, 193) ;
-            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
-            position: relative;
-            background-color: white;
-            z-index: 100;
-            transition: transform 0.25s ease;
-        }
-
-        .card ul{
-            list-style: none;
-            text-align: start;
-        }
-
-        .card::before{
-            content: '';
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            position: absolute;
+        .box{
+            width: 5rem;
+            height: 5rem;
             background-color: yellowgreen;
-            z-index: -100;
+            border-radius: 1rem;
         }
-
     </style>
 </head>
 <body>
-    <div class="wrap">
-        <header>
-            <p>Just a card seen on Pinterest</p>
-        </header>
-        <main>
-            <div class="card">
-                <div class="info">This is going to be the card of te universe</div>
-                <button id="btn">Talk to Universe</button>
-                <nav>
-                    <ul>
-                        <li>PANDORA</li>
-                        <li>FIND</li>
-                        <li>AVATAR</li>
-                        <li>JAKE SULLY</li>
-                    </ul>
-                </nav>
-            </div>
-        </main>
-        <footer></footer>
-    </div>
+    <div class="box"></div>
 </body>
 </html>
