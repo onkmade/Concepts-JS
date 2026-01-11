@@ -1,12 +1,4 @@
-const fu = ["banana", "apple", "kiwi", "orange"];
-const du = [23, 43, 54,65,76];
-const newfudu = [...du, ...fu];
-// console.log(newfudu);
-
-const neeww = [
-    ...du.slice(0, 2),
-    "parrot",
-    ...du.slice(2)
-];
-
-console.log(neeww);
+const arr8 = [2, 6, 7, 8, 10];
+let findValue = arr8.find( function(e) {return e === 6});
+let findValue2 = arr8.find( e => e === 10);
+console.log(findValue, findValue2);
