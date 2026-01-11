@@ -1,12 +1,6 @@
-function numRandom(){
-    const numbers = [];
-    for(let i=0; i<10; i++){
-        const num = Math.floor(Math.random() * 50);
-        numbers.push(num);
-    }
-    return numbers;
-}
-
-const result = numRandom();
-console.log(result);
-console.log(result.filter(num => num > 10));
+// find only returns the 1st element whose confidence has been satisfied
+const box = ["anime", true, "thunders", 34];
+box.push("narendra"); // add element from the end 
+box.unshift("kingaaru"); // add element from the front
+box.shift(); // remove element from the start
+console.log(box); 
