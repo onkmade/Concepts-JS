@@ -1,2 +1,12 @@
-const numb = [1,2,3,4,5,6,7,8,9,10,15];
-const foundd = numb.find( num => num % 2 == 0);
+function numRandom(){
+    const numbers = [];
+    for(let i=0; i<10; i++){
+        const num = Math.floor(Math.random() * 50);
+        numbers.push(num);
+    }
+    return numbers;
+}
+
+const result = numRandom();
+console.log(result);
+console.log(result.filter(num => num > 10));
