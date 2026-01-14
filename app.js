@@ -1,4 +1,10 @@
-const myArr3 = [3,6,8,9,3,55,553,434];
-myArr3.sort();
-myArr3.length = 4;
-console.log(myArr3[0]);
+let count = 1;
+let sum = 0;
+
+while(count <= 100){
+    console.log(sum);
+    sum += count;
+    count++;
+}
+
+console.log(sum);
