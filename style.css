@@ -70,7 +70,7 @@ button{
 }
 
 input{
-    width: 25rem;
+    width: clamp(10rem, 100%, 35rem);
     border: 2px solid #1312159c;
     outline: none;
     font-family: "JetBrains Mono";
