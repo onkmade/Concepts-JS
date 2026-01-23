@@ -3,72 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Token Counter Design</title>
     <style>
-        body{
-            padding: 0;
-            margin: 0;
-            min-height: 100svh;
-        }
-
-        button.user{
-            width: 2rem;
-            height: 2rem;
-            border-radius: 0.25rem;
-
-            > svg{
-                width: 18px;
-                height: 18px;
-                vertical-align: middle;
-            }
-        }
-
-        header{
-            padding: 0.5rem;
-            display: grid;
-            gap: 0.35rem;
-            grid-template-columns: auto 1fr auto;
-            place-content: center;
-            background-color: #F0F2F5;
-        }
-
-        input{
-            width: clamp(10rem, 100%, 35rem);
-            border: 2px solid #1312159c;
-            outline: none;
-            font-family: "JetBrains Mono";
-            border-radius: 0.25rem;
-            padding: clamp(0.25rem, 2vw, 0.5rem);
-            font-size: clamp( 9pt, 2vw, 10pt);
-        }
-
-        .search{
+        body {
             display: flex;
             justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e0e0e0;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
-        .profile{
+        .card {
+            background-color: #e0e0e0;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 10px 10px 30px #bebebe, -10px -10px 30px #ffffff;
+            width: 300px;
             display: flex;
-            gap: 0.5rem;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
         }
 
+        .tokens-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #555;
+        }
 
+        .logo-icon {
+            /* Placeholder for an actual icon/SVG */
+            width: 16px;
+            height: 16px;
+            background-color: #4a90e2; /* Example color for the 'G' logo */
+            border-radius: 50%;
+        }
+
+        .price {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .counter-controls {
+            display: flex;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #e0e0e0;
+            box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
+        }
+
+        .button, .display {
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.2s;
+            font-size: 18px;
+            font-weight: bold;
+            color: #555;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .button {
+            background: none;
+            box-shadow: 0px 0px 0px rgba(0,0,0,0); /* Resetting default button shadow */
+        }
+
+        .button:active {
+            box-shadow: inset 2px 2px 5px #bebebe, inset -2px -2px 5px #ffffff;
+        }
+
+        .display {
+            background-color: #333;
+            color: #00bcd4; /* Bright blue color for the number */
+            cursor: default;
+            flex-grow: 2;
+        }
     </style>
 </head>
 <body>
-    <header>
-        <div class="empty"></div>
-        <div class="search">
-            <input type="search" name="" id="" placeholder="Search">
-
+    <div class="card">
+        <div class="header">
+            <div class="tokens-info">
+                <div class="logo-icon"></div>
+                Tokens
+            </div>
+            <div class="price">
+                $1.00
+            </div>
         </div>
-        <div class="profile">
-            <button class="user">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            </button>
-            <div class="name">Charollte</div>
+        <div class="counter-controls">
+            <button class="button minus">—</button>
+            <div class="display">1</div>
+            <button class="button plus">+</button>
         </div>
-    </header>
+    </div>
 </body>
 </html>
