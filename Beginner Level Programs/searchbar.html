@@ -3,24 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Search Bar</title>
     <link rel="stylesheet" href="/style.css">
-    <style>
-        input{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.5rem;
-            width: clamp(25rem, 2vw, 35rem);
-
-
-
-            &::before{
-                content:'🔍︎';
-                font-size: 14pt;
-            }
-        }
-    </style>
 </head>
 <body>
     <div class="wrap">
@@ -28,7 +12,7 @@
             <p>trying Search-bar</p>
         </header>
         <main>
-            <div class="search">
+            <div class="search" aria-label="Search">
                 <input type="search" placeholder="search">
             </div>
         </main>
