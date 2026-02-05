@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaze | Anime Detail</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            900: '#0a0a0a',
+                            850: '#0f0f0f',
+                            800: '#121212',
+                            700: '#1c1c1c',
+                            600: '#262626',
+                            500: '#333333',
+                        },
+                        accent: {
+                            500: '#6366f1',
+                            400: '#818cf8',
+                            600: '#4f46e5',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'slide-up': 'slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'progress': 'progress 2s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        progress: {
+                            '0%': { width: '0%' },
+                            '100%': { width: 'var(--progress-width)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .glass {
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .episode-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .episode-card:hover {
+            transform: translateY(-4px);
+        }
+        .episode-card.active {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .tab-active {
+            color: white;
+            border-bottom: 2px solid #6366f1;
+        }
+
+        .video-progress {
+            background: linear-gradient(90deg, #6366f1 var(--progress), #333 var(--progress));
+        }
+
+        /* Character card hover effect */
+        .character-card {
+            transition: transform 0.3s ease;
+        }
+        .character-card:hover {
+            transform: scale(1.05);
+        }
+
+        /* Rating stars animation */
+        .star-filled {
+            color: #6366f1;
+            fill: #6366f1;
+        }
+
+        /* Sticky tab shadow on scroll */
+        .tabs-sticky {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body class="bg-dark-900 text-gray-100 antialiased min-h-screen selection:bg-accent-500 selection:text-white pb-20 md:pb-0">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-4">
+                    <button onclick="history.back()" class="p-2 rounded-full hover:bg-dark-700 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <span class="text-xl font-bold tracking-tighter text-white">KAZE<span class="text-accent-500">.</span></span>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <button class="p-2 rounded-full hover:bg-dark-700 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    </button>
+                    <button class="p-2 rounded-full hover:bg-dark-700 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+                    </button>
+                    <div class="h-8 w-8 rounded-full bg-gradient-to-tr from-accent-500 to-purple-500 p-[1px]">
+                        <div class="h-full w-full rounded-full bg-dark-800 flex items-center justify-center text-xs font-bold text-white">U</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-16">
+        
+        <!-- Hero Section with Video Player Placeholder -->
+        <section class="relative w-full bg-black">
+            <!-- Video Player Container -->
+            <div class="relative aspect-video w-full max-h-[70vh] bg-dark-800 group">
+                <img src="https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p10701949_b_v9_ah.jpg" 
+                     alt="Attack on Titan" 
+                     class="w-full h-full object-cover opacity-80">
+                
+                <!-- Gradient Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent opacity-90"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-dark-900/80 via-transparent to-transparent"></div>
+
+                <!-- Play Button Overlay -->
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <button class="w-20 h-20 md:w-24 md:h-24 bg-accent-500/90 rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-2xl shadow-accent-500/50 backdrop-blur-sm group-hover:bg-accent-500">
+                        <svg class="w-8 h-8 md:w-10 md:h-10 text-white ml-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M6.3 5.84a.5.5 0 01.77-.42l7.15 4.16a.5.5 0 010 .84l-7.15 4.16a.5.5 0 01-.77-.42V5.84z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Video Controls Bar -->
+                <div class="absolute bottom-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-t from-black/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                    <!-- Progress Bar -->
+                    <div class="w-full h-1 bg-dark-600 rounded-full mb-4 cursor-pointer group/progress">
+                        <div class="h-full w-1/3 bg-accent-500 rounded-full relative">
+                            <div class="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow opacity-0 group-hover/progress:opacity-100"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <button class="text-white hover:text-accent-400">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"/></svg>
+                            </button>
+                            <span class="text-sm text-gray-300 font-mono">12:45 / 24:00</span>
+                            <button class="text-white hover:text-accent-400">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <button class="text-white hover:text-accent-400 text-sm font-medium">HD</button>
+                            <button class="text-white hover:text-accent-400">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Episode Badge -->
+                <div class="absolute top-4 left-4 bg-accent-500/90 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-full">
+                    EPISODE 1
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Info Section -->
+        <section class="relative -mt-20 z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row gap-6 md:gap-10">
+                <!-- Mobile Poster (hidden on desktop) -->
+                <div class="md:hidden w-32 mx-auto rounded-lg overflow-hidden shadow-2xl border-2 border-dark-700">
+                    <img src="https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p10701949_b_v9_ah.jpg" alt="Poster" class="w-full aspect-[2/3] object-cover">
+                </div>
+
+                <!-- Info -->
+                <div class="flex-1 text-center md:text-left">
+                    <h1 class="text-3xl md:text-5xl font-bold text-white mb-2 tracking-tight">Attack on Titan</h1>
+                    <p class="text-gray-400 text-sm md:text-base mb-4">進撃の巨人 • Shingeki no Kyojin</p>
+                    
+                    <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-6 text-sm">
+                        <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs font-semibold">9.8 Rating</span>
+                        <span class="text-gray-400">2013</span>
+                        <span class="text-gray-600">•</span>
+                        <span class="text-gray-400">87 Episodes</span>
+                        <span class="text-gray-600">•</span>
+                        <span class="text-gray-400">24 min</span>
+                        <span class="text-gray-600">•</span>
+                        <span class="border border-gray-600 px-2 py-0.5 rounded text-xs text-gray-300">TV-MA</span>
+                    </div>
+
+                    <div class="flex flex-wrap justify-center md:justify-start gap-2 mb-6">
+                        <span class="px-3 py-1 rounded-full bg-dark-700 text-gray-300 text-xs border border-dark-600">Action</span>
+                        <span class="px-3 py-1 rounded-full bg-dark-700 text-gray-300 text-xs border border-dark-600">Drama</span>
+                        <span class="px-3 py-1 rounded-full bg-dark-700 text-gray-300 text-xs border border-dark-600">Dark Fantasy</span>
+                        <span class="px-3 py-1 rounded-full bg-dark-700 text-gray-300 text-xs border border-dark-600">Military</span>
+                    </div>
+
+                    <p class="text-gray-300 leading-relaxed mb-6 max-w-3xl text-sm md:text-base line-clamp-3 md:line-clamp-none">
+                        Humanity lives inside cities surrounded by enormous walls that protect them from gigantic man-eating humanoids referred to as Titans. The story follows Eren Yeager, who vows to retake the world after a Titan brings about the destruction of his home town and the death of his mother.
+                    </p>
+
+                    <div class="flex flex-wrap justify-center md:justify-start gap-3">
+                        <button class="bg-accent-600 hover:bg-accent-500 text-white px-6 py-3 rounded-xl font-semibold transition-colors flex items-center gap-2 shadow-lg shadow-accent-900/30">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"/></svg>
+                            Continue Episode 1
+                        </button>
+                        <button class="bg-dark-700 hover:bg-dark-600 text-white px-4 py-3 rounded-xl font-semibold transition-colors flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                            Add to List
+                        </button>
+                        <button class="bg-dark-700 hover:bg-dark-600 text-white px-4 py-3 rounded-xl font-semibold transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+                        </button>
+                        <button class="bg-dark-700 hover:bg-dark-600 text-white px-4 py-3 rounded-xl font-semibold transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Desktop Poster -->
+                <div class="hidden md:block w-48 lg:w-56 flex-shrink-0">
+                    <div class="rounded-xl overflow-hidden shadow-2xl border border-dark-700 transform hover:scale-105 transition-transform duration-300">
+                        <img src="https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p10701949_b_v9_ah.jpg" alt="Poster" class="w-full aspect-[2/3] object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sticky Tabs Navigation -->
+        <div class="sticky top-16 z-40 bg-dark-900/95 backdrop-blur border-b border-dark-700 mt-8 tabs-sticky" id="tabs-container">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center gap-6 overflow-x-auto no-scrollbar">
+                    <button class="tab-btn tab-active py-4 text-sm font-medium whitespace-nowrap transition-colors" data-tab="episodes">Episodes</button>
+                    <button class="tab-btn py-4 text-sm font-medium text-gray-400 hover:text-white whitespace-nowrap transition-colors" data-tab="info">Info</button>
+                    <button class="tab-btn py-4 text-sm font-medium text-gray-400 hover:text-white whitespace-nowrap transition-colors" data-tab="characters">Characters</button>
+                    <button class="tab-btn py-4 text-sm font-medium text-gray-400 hover:text-white whitespace-nowrap transition-colors" data-tab="reviews">Reviews</button>
+                    <button class="tab-btn py-4 text-sm font-medium text-gray-400 hover:text-white whitespace-nowrap transition-colors" data-tab="related">Related</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            
+            <!-- Episodes Tab -->
+            <div id="tab-episodes" class="tab-content">
+                <!-- Season Selector -->
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-3">
+                        <select class="bg-dark-800 border border-dark-600 text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-accent-500">
+                            <option>Season 1</option>
+                            <option>Season 2</option>
+                            <option>Season 3</option>
+                            <option>Season 4 (Part 1)</option>
+                            <option>Season 4 (Part 2)</option>
+                            <option>Season 4 (Part 3)</option>
+                        </select>
+                        <span class="text-gray-500 text-sm">25 Episodes</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="p-2 rounded-lg bg-dark-800 hover:bg-dark-700 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                        </button>
+                        <button class="p-2 rounded-lg bg-accent-600 text-white">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Episodes Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="episodes-list">
+                    <!-- Episodes injected via JS -->
+                </div>
+            </div>
+
+            <!-- Info Tab -->
+            <div id="tab-info" class="tab-content hidden">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-4">Synopsis</h3>
+                        <p class="text-gray-300 leading-relaxed mb-6">
+                            Centuries ago, mankind was slaughtered to near extinction by monstrous humanoid creatures called Titans, forcing humans to hide in fear behind enormous concentric walls. What makes these giants truly terrifying is that their taste for human flesh is not born out of hunger but what appears to be out of pleasure. To ensure their survival, the remnants of humanity began living within defensive barriers, resulting in one hundred years without a single titan encounter. However, that calm is soon shaken when a colossal Titan manages to breach the supposedly impregnable outer wall, reigniting the fight for survival against the man-eating abominations.
+                        </p>
+                        
+                        <h3 class="text-lg font-semibold text-white mb-4">Details</h3>
+                        <dl class="space-y-3 text-sm">
+                            <div class="flex">
+                                <dt class="w-32 text-gray-500">Studio</dt>
+                                <dd class="text-white">Wit Studio / MAPPA</dd>
+                            </div>
+                            <div class="flex">
+                                <dt class="w-32 text-gray-500">Source</dt>
+                                <dd class="text-white">Manga</dd>
+                            </div>
+                            <div class="flex">
+                                <dt class="w-32 text-gray-500">Genres</dt>
+                                <dd class="text-white">Action, Drama, Fantasy, Shounen</dd>
+                            </div>
+                            <div class="flex">
+                                <dt class="w-32 text-gray-500">Themes</dt>
+                                <dd class="text-white">Military, Survival, Dark Fantasy</dd>
+                            </div>
+                            <div class="flex">
+                                <dt class="w-32 text-gray-500">Demographic</dt>
+                                <dd class="text-white">Shounen</dd>
+                            </div>
+                        </dl>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-4">Rating Distribution</h3>
+                        <div class="space-y-2 mb-6">
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs text-gray-400 w-8">5 ★</span>
+                                <div class="flex-1 h-2 bg-dark-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-accent-500 rounded-full" style="width: 85%"></div>
+                                </div>
+                                <span class="text-xs text-gray-400 w-8">85%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs text-gray-400 w-8">4 ★</span>
+                                <div class="flex-1 h-2 bg-dark-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-accent-500/70 rounded-full" style="width: 10%"></div>
+                                </div>
+                                <span class="text-xs text-gray-400 w-8">10%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs text-gray-400 w-8">3 ★</span>
+                                <div class="flex-1 h-2 bg-dark-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-accent-500/50 rounded-full" style="width: 3%"></div>
+                                </div>
+                                <span class="text-xs text-gray-400 w-8">3%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs text-gray-400 w-8">2 ★</span>
+                                <div class="flex-1 h-2 bg-dark-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-accent-500/30 rounded-full" style="width: 1%"></div>
+                                </div>
+                                <span class="text-xs text-gray-400 w-8">1%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs text-gray-400 w-8">1 ★</span>
+                                <div class="flex-1 h-2 bg-dark-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-accent-500/20 rounded-full" style="width: 1%"></div>
+                                </div>
+                                <span class="text-xs text-gray-400 w-8">1%</span>
+                            </div>
+                        </div>
+
+                        <h3 class="text-lg font-semibold text-white mb-4">Airing Schedule</h3>
+                        <div class="bg-dark-800 rounded-xl p-4 border border-dark-700">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                                <span class="text-sm text-gray-300">Finished Airing</span>
+                            </div>
+                            <p class="text-xs text-gray-500">Aired: Apr 7, 2013 to Sep 29, 2013</p>
+                            <p class="text-xs text-gray-500 mt-1">Broadcast: Sundays at 01:58 (JST)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Characters Tab -->
+            <div id="tab-characters" class="tab-content hidden">
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4" id="characters-grid">
+                    <!-- Characters injected via JS -->
+                </div>
+            </div>
+
+            <!-- Reviews Tab -->
+            <div id="tab-reviews" class="tab-content hidden">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-semibold text-white">User Reviews</h3>
+                    <button class="bg-accent-600 hover:bg-accent-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        Write a Review
+                    </button>
+                </div>
+                
+                <div class="space-y-4" id="reviews-list">
+                    <!-- Reviews injected via JS -->
+                </div>
+                
+                <button class="w-full mt-6 py-3 border border-dark-600 text-gray-400 hover:text-white hover:border-gray-500 rounded-lg transition-colors text-sm">
+                    Load More Reviews
+                </button>
+            </div>
+
+            <!-- Related Tab -->
+            <div id="tab-related" class="tab-content hidden">
+                <h3 class="text-lg font-semibold text-white mb-4">More Like This</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4" id="related-grid">
+                    <!-- Related anime injected via JS -->
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="md:hidden fixed bottom-0 left-0 w-full bg-dark-800 border-t border-dark-700 z-50 pb-safe">
+        <div class="flex justify-around items-center h-16">
+            <button class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-white space-y-1">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                <span class="text-[10px] font-medium">Home</span>
+            </button>
+            <button class="flex flex-col items-center justify-center w-full h-full text-accent-500 space-y-1">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"/></svg>
+                <span class="text-[10px] font-medium">Watch</span>
+            </button>
+            <button class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-white space-y-1">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                <span class="text-[10px] font-medium">Saved</span>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        // Episode Data
+        const episodes = [
+            { id: 1, title: "To You, in 2000 Years", duration: "24:00", thumbnail: "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p10701949_b_v9_ah.jpg", progress: 0, description: "The Colossal Titan appears and breaches the Wall." },
+            { id: 2, title: "That Day", duration: "24:00", thumbnail: "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p10701949_b_v9_ah.jpg", progress: 0, description: "Eren swears revenge on the Titans." },
+            { id: 3, title: "A Dim Light Amid Despair", duration: "24:00", thumbnail: "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p10701949_b_v9_ah.jpg", progress: 0, description: "The recruits begin their training." },
+            { id: 4, title: "The Night of the Closing Ceremony", duration: "24:00", thumbnail: "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p10701949_b_v9_ah.jpg", progress: 0, description: "Graduation day approaches." },
+            { id: 5, title: "First Battle", duration: "24:00", thumbnail: "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p10701949_b_v9_ah.jpg", progress: 45, description: "The Trost District is attacked." },
+            { id: 6, title: "The World the Girl Saw", duration: "24:00", thumbnail: "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p10701949_b_v9_ah.jpg", progress: 0, description: "Mikasa's past is revealed." },
+        ];
+
+        // Characters Data
+        const characters = [
+            { name: "Eren Yeager", role: "Main", va: "Yuki Kaji", img: "https://static.wikia.nocookie.net/shingekinokyojin/images/3/37/Eren_Yeager_%28Anime%29_character_image.png" },
+            { name: "Mikasa Ackerman", role: "Main", va: "Yui Ishikawa", img: "https://static.wikia.nocookie.net/shingekinokyojin/images/4/4f/Mikasa_Ackermann_%28Anime%29_character_image.png" },
+            { name: "Armin Arlert", role: "Main", va: "Marina Inoue", img: "https://static.wikia.nocookie.net/shingekinokyojin/images/9/93/Armin_Arlelt_%28Anime%29_character_image.png" },
+            { name: "Levi Ackerman", role: "Supporting", va: "Hiroshi Kamiya", img: "https://static.wikia.nocookie.net/shingekinokyojin/images/b/b1/Levi_Ackermann_%28Anime%29_character_image.png" },
+            { name: "Erwin Smith", role: "Supporting", va: "Daisuke Ono", img: "https://static.wikia.nocookie.net/shingekinokyojin/images/4/4c/Erwin_Smith_%28Anime%29_character_image.png" },
+            { name: "Hange Zoë", role: "Supporting", va: "Romi Park", img: "https://static.wikia.nocookie.net/shingekinokyojin/images/f/f8/Hange_Zoë_%28Anime%29_character_image.png" },
+        ];
+
+        // Reviews Data
+        const reviews = [
+            { user: "AnimeFan99", rating: 5, date: "2 days ago", text: "Absolute masterpiece. The story, animation, and music are all top tier. Definitely a must-watch for any anime fan.", avatar: "U1" },
+            { user: "TitanSlayer", rating: 5, date: "1 week ago", text: "The plot twists in this series are insane. Every episode leaves you wanting more. 10/10 would recommend.", avatar: "U2" },
+            { user: "WeebMaster", rating: 4, date: "2 weeks ago", text: "Great anime but some pacing issues in the middle. Overall still one of the best action anime ever made.", avatar: "U3" },
+        ];
+
+        // Related Anime
+        const related = [
+            { title: "Demon Slayer", img: "https://static.wikia.nocookie.net/kimetsu-no-yaiba/images/e/e0/Tanjiro_colored_body_6.png/revision/latest/scale-to-width/360?cb=20251026093645", rating: "9.5" },
+            { title: "Jujutsu Kaisen", img: "https://static.wikia.nocookie.net/mappa9318/images/1/1d/Jujutsu_Kaisen_0_Key_Visual_2.png/revision/latest?cb=20220616095750", rating: "9.4" },
+            { title: "Death Note", img: "https://geemerch.com/cdn/shop/products/9856.jpg?v=1744928226", rating: "9.6" },
+            { title: "Steins;Gate", img: "https://s.pacn.ws/1/p/ur/steins-gate-complete-bluray-box-553971.1.jpg?v=p3grfo", rating: "9.7" },
+            { title: "Vinland Saga", img: "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p10701949_b_v9_ah.jpg", rating: "9.3" },
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderEpisodes();
+            renderCharacters();
+            renderReviews();
+            renderRelated();
+            setupTabs();
+        });
+
+        function renderEpisodes() {
+            const container = document.getElementById('episodes-list');
+            container.innerHTML = episodes.map((ep, idx) => `
+                <div class="episode-card group relative bg-dark-800 rounded-xl overflow-hidden border border-dark-700 cursor-pointer ${idx === 0 ? 'active' : ''}" onclick="selectEpisode(${ep.id})">
+                    <div class="relative aspect-video">
+                        <img src="${ep.thumbnail}" alt="Episode ${ep.id}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark-900/90 to-transparent"></div>
+                        
+                        <!-- Play Icon -->
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div class="w-12 h-12 bg-accent-500 rounded-full flex items-center justify-center shadow-lg">
+                                <svg class="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 5.84a.5.5 0 01.77-.42l7.15 4.16a.5.5 0 010 .84l-7.15 4.16a.5.5 0 01-.77-.42V5.84z"/></svg>
+                            </div>
+                        </div>
+
+                        <!-- Episode Number -->
+                        <div class="absolute top-2 left-2 bg-black/60 backdrop-blur text-white text-xs font-bold px-2 py-1 rounded">
+                            EP ${ep.id}
+                        </div>
+
+                        <!-- Duration -->
+                        <div class="absolute bottom-2 right-2 bg-black/60 backdrop-blur text-white text-xs px-2 py-1 rounded">
+                            ${ep.duration}
+                        </div>
+
+                        <!-- Progress Bar -->
+                        ${ep.progress > 0 ? `
+                            <div class="absolute bottom-0 left-0 right-0 h-1 bg-dark-600">
+                                <div class="h-full bg-accent-500" style="width: ${ep.progress}%"></div>
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="p-3">
+                        <h4 class="text-white font-medium text-sm mb-1 line-clamp-1 group-hover:text-accent-400 transition-colors">${ep.title}</h4>
+                        <p class="text-gray-500 text-xs line-clamp-2">${ep.description}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderCharacters() {
+            const container = document.getElementById('characters-grid');
+            container.innerHTML = characters.map(char => `
+                <div class="character-card bg-dark-800 rounded-xl overflow-hidden border border-dark-700">
+                    <div class="aspect-[3/4] relative">
+                        <img src="${char.img}" alt="${char.name}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/300x400/1c1c1c/6366f1?text=${encodeURIComponent(char.name)}'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-3">
+                        <h4 class="text-white font-medium text-sm truncate">${char.name}</h4>
+                        <p class="text-gray-500 text-xs">${char.va}</p>
+                        <span class="inline-block mt-1 text-[10px] uppercase tracking-wider text-accent-400 border border-accent-500/30 px-2 py-0.5 rounded">${char.role}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderReviews() {
+            const container = document.getElementById('reviews-list');
+            container.innerHTML = reviews.map(review => `
+                <div class="bg-dark-800 rounded-xl p-4 border border-dark-700">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-accent-500/20 flex items-center justify-center text-accent-400 font-bold text-sm">
+                                ${review.avatar}
+                            </div>
+                            <div>
+                                <h4 class="text-white font-medium text-sm">${review.user}</h4>
+                                <p class="text-gray-500 text-xs">${review.date}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            ${Array(5).fill(0).map((_, i) => `
+                                <svg class="w-4 h-4 ${i < review.rating ? 'star-filled' : 'text-gray-600'}" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed">${review.text}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderRelated() {
+            const container = document.getElementById('related-grid');
+            container.innerHTML = related.map(anime => `
+                <div class="group cursor-pointer">
+                    <div class="relative aspect-[2/3] rounded-xl overflow-hidden bg-dark-800 mb-2">
+                        <img src="${anime.img}" alt="${anime.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://via.placeholder.com/400x600/1c1c1c/6366f1?text=${encodeURIComponent(anime.title)}'">
+                        <div class="absolute top-2 right-2 bg-dark-900/80 backdrop-blur text-accent-400 text-xs font-bold px-2 py-1 rounded">
+                            ${anime.rating}
+                        </div>
+                    </div>
+                    <h4 class="text-white font-medium text-sm group-hover:text-accent-400 transition-colors line-clamp-1">${anime.title}</h4>
+                </div>
+            `).join('');
+        }
+
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Update tab styles
+                    tabs.forEach(t => {
+                        t.classList.remove('tab-active');
+                        t.classList.add('text-gray-400');
+                    });
+                    tab.classList.add('tab-active');
+                    tab.classList.remove('text-gray-400');
+                    
+                    // Show content
+                    const target = tab.dataset.tab;
+                    contents.forEach(c => c.classList.add('hidden'));
+                    document.getElementById(`tab-${target}`).classList.remove('hidden');
+                });
+            });
+        }
+
+        function selectEpisode(id) {
+            document.querySelectorAll('.episode-card').forEach(card => card.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            // Scroll to top smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Sticky tabs shadow on scroll
+        window.addEventListener('scroll', () => {
+            const tabs = document.getElementById('tabs-container');
+            if (window.scrollY > 100) {
+                tabs.classList.add('tabs-sticky');
+            } else {
+                tabs.classList.remove('tabs-sticky');
+            }
+        });
+    </script>
+</body>
+</html>
