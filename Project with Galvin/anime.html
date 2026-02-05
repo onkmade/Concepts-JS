@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orkyus</title>
+    <title>Onkmade.</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -92,22 +92,46 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Loader */
-        .loader {
-            border: 2px solid #1c1c1c;
-            border-top: 2px solid #6366f1;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
+        /* Bookmark Animation */
+        .bookmark-btn {
+            transition: all 0.3s ease;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .bookmark-btn.active {
+            color: #6366f1;
+            fill: currentColor;
+        }
+        .bookmark-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(99, 102, 241, 0.9);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 100;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
         }
     </style>
 </head>
 <body class="bg-dark-900 text-gray-100 antialiased min-h-screen selection:bg-accent-500 selection:text-white pb-20 md:pb-0">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Added to Bookmarks</div>
 
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass transition-all duration-300" id="navbar">
@@ -133,9 +157,9 @@
                 <!-- Desktop Menu -->
                 <div class="hidden md:block">
                     <div class="ml-4 flex items-center space-x-8">
-                        <a href="#" class="text-sm font-medium text-white hover:text-accent-400 transition-colors">Discover</a>
+                        <a href="#" class="text-sm font-medium text-white hover:text-accent-400 transition-colors" onclick="filterByBookmark()">Bookmarks <span id="bookmark-count" class="ml-1 text-xs bg-accent-500 text-white px-2 py-0.5 rounded-full">0</span></a>
+                        <a href="#" class="text-sm font-medium text-gray-400 hover:text-white transition-colors" onclick="resetFilter()">Discover</a>
                         <a href="#" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Trending</a>
-                        <a href="#" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Seasonal</a>
                         <div class="h-8 w-8 rounded-full bg-gradient-to-tr from-accent-500 to-purple-500 p-[1px] cursor-pointer hover:scale-105 transition-transform">
                             <div class="h-full w-full rounded-full bg-dark-800 flex items-center justify-center text-xs font-bold text-white">U</div>
                         </div>
@@ -143,7 +167,13 @@
                 </div>
 
                 <!-- Mobile menu button -->
-                <div class="md:hidden flex items-center">
+                <div class="md:hidden flex items-center gap-4">
+                    <button onclick="filterByBookmark()" class="relative text-gray-400 hover:text-white">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                        </svg>
+                        <span id="mobile-bookmark-count" class="absolute -top-1 -right-1 text-[10px] bg-accent-500 text-white w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                    </button>
                     <button id="mobile-menu-btn" class="text-gray-400 hover:text-white focus:outline-none p-2">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -153,14 +183,13 @@
             </div>
         </div>
 
-        <!-- Mobile Menu Panel -->
+                <!-- Mobile Menu Panel -->
         <div id="mobile-menu" class="hidden md:hidden bg-dark-800 border-b border-dark-700 absolute w-full">
             <div class="px-4 pt-2 pb-4 space-y-1">
                 <input type="text" id="mobile-search" class="block w-full pl-4 pr-3 py-3 border border-dark-600 rounded-lg bg-dark-900 text-white placeholder-gray-500 focus:outline-none focus:border-accent-500 mb-4" placeholder="Search anime...">
-                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-dark-700">Discover</a>
+                <a href="#" onclick="resetFilter(); mobileMenu.classList.add('hidden')" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-dark-700">Discover</a>
+                <a href="#" onclick="filterByBookmark(); mobileMenu.classList.add('hidden')" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-dark-700">My Bookmarks</a>
                 <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-dark-700">Trending</a>
-                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-dark-700">Seasonal</a>
-                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-dark-700">My List</a>
             </div>
         </div>
     </nav>
@@ -172,7 +201,7 @@
         <section class="relative h-[50vh] md:h-[70vh] w-full overflow-hidden flex items-end">
             <!-- Background Image with Gradient -->
             <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=2560&auto=format&fit=crop" alt="Hero Background" class="w-full h-full object-cover opacity-60">
+                <img src="https://images4.alphacoders.com/127/1274465.jpg" alt="Cyberpunk Edgerunners" class="w-full h-full object-cover opacity-60">
                 <div class="absolute inset-0 bg-gradient-to-t from-dark-900 via-dark-900/60 to-transparent"></div>
             </div>
 
@@ -189,8 +218,9 @@
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" /></svg>
                             Watch Now
                         </button>
-                        <button class="bg-dark-800/50 backdrop-blur-md border border-white/10 text-white px-6 py-3 rounded-full font-semibold text-sm hover:bg-dark-700 transition-colors">
-                            + My List
+                        <button onclick="toggleBookmark({id: 0, title: 'Cyberpunk: Edgerunners', genre: 'sci-fi', rating: 9.8, year: 2022, episodes: '10', image: 'https://images4.alphacoders.com/127/1274465.jpg', desc: 'In a dystopia riddled with corruption and cybernetic implants, a talented but reckless street kid strives to become a mercenary outlaw.', tags: ['Cyberpunk', 'Action', 'Sci-Fi'], studio: 'Trigger'})" class="bg-dark-800/50 backdrop-blur-md border border-white/10 text-white px-6 py-3 rounded-full font-semibold text-sm hover:bg-dark-700 transition-colors flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
+                            <span>Bookmark</span>
                         </button>
                     </div>
                 </div>
@@ -234,7 +264,7 @@
     <!-- Mobile Bottom Nav -->
     <nav class="md:hidden fixed bottom-0 left-0 w-full bg-dark-800 border-t border-dark-700 z-50 pb-safe">
         <div class="flex justify-around items-center h-16">
-            <button class="flex flex-col items-center justify-center w-full h-full text-accent-500 space-y-1">
+            <button onclick="resetFilter()" class="flex flex-col items-center justify-center w-full h-full text-accent-500 space-y-1">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                 <span class="text-[10px] font-medium">Home</span>
             </button>
@@ -242,9 +272,10 @@
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 <span class="text-[10px] font-medium">Trending</span>
             </button>
-            <button class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-gray-300 space-y-1">
+            <button onclick="filterByBookmark()" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-gray-300 space-y-1 relative">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                 <span class="text-[10px] font-medium">Saved</span>
+                <span id="bottom-bookmark-indicator" class="absolute top-1 right-4 w-2 h-2 bg-accent-500 rounded-full hidden"></span>
             </button>
             <button class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-gray-300 space-y-1">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
@@ -276,15 +307,20 @@
                         <div class="h-48 md:h-64 w-full relative">
                             <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-gradient-to-t from-dark-800 via-dark-800/40 to-transparent"></div>
-                            <div class="absolute bottom-4 left-6">
-                                <h3 class="text-2xl md:text-3xl font-bold text-white tracking-tight" id="modal-title">Title</h3>
-                                <div class="flex items-center space-x-3 mt-2 text-sm text-gray-300">
-                                    <span class="text-accent-400 font-semibold" id="modal-rating">★ 4.9</span>
-                                    <span>•</span>
-                                    <span id="modal-year">2023</span>
-                                    <span>•</span>
-                                    <span id="modal-genre" class="border border-gray-600 px-2 py-0.5 rounded text-xs uppercase tracking-wider">Action</span>
+                            <div class="absolute bottom-4 left-6 right-6 flex justify-between items-end">
+                                <div>
+                                    <h3 class="text-2xl md:text-3xl font-bold text-white tracking-tight" id="modal-title">Title</h3>
+                                    <div class="flex items-center space-x-3 mt-2 text-sm text-gray-300">
+                                        <span class="text-accent-400 font-semibold" id="modal-rating">★ 4.9</span>
+                                        <span>•</span>
+                                        <span id="modal-year">2023</span>
+                                        <span>•</span>
+                                        <span id="modal-genre" class="border border-gray-600 px-2 py-0.5 rounded text-xs uppercase tracking-wider">Action</span>
+                                    </div>
                                 </div>
+                                <button id="modal-bookmark-btn" onclick="toggleModalBookmark()" class="p-3 rounded-full bg-dark-700/80 backdrop-blur text-white hover:bg-accent-500 transition-colors">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
+                                </button>
                             </div>
                         </div>
 
@@ -309,16 +345,13 @@
                                 </div>
                                 <div class="text-center border-l border-dark-700">
                                     <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Studio</div>
-                                    <div class="text-lg font-semibold text-white">MAPPA</div>
+                                    <div class="text-lg font-semibold text-white" id="modal-studio">MAPPA</div>
                                 </div>
                             </div>
 
                             <div class="flex gap-4">
                                 <button class="flex-1 bg-accent-600 hover:bg-accent-500 text-white py-3 rounded-xl font-semibold transition-colors shadow-lg shadow-accent-900/20">
                                     Watch Now
-                                </button>
-                                <button class="px-4 py-3 rounded-xl border border-dark-600 hover:bg-dark-700 text-white transition-colors">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
                                 </button>
                             </div>
                         </div>
@@ -329,7 +362,7 @@
     </div>
 
     <script>
-        // --- Data Source ---
+        // --- Data Source with Exact Anime Images ---
         const animeData = [
             {
                 id: 1,
@@ -338,9 +371,10 @@
                 rating: 9.8,
                 year: 2013,
                 episodes: "87",
-                image: "https://images.unsplash.com/photo-1541562232579-512a21360020?q=80&w=600&auto=format&fit=crop",
+                image: "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p10701949_b_v9_ah.jpg",
                 desc: "Humanity lives inside cities surrounded by enormous walls that protect them from gigantic man-eating humanoids referred to as Titans. The story follows Eren Yeager, who vows to retake the world after a Titan brings about the destruction of his home town and the death of his mother.",
-                tags: ["Dark Fantasy", "Survival", "Military"]
+                tags: ["Dark Fantasy", "Survival", "Military"],
+                studio: "Wit Studio / MAPPA"
             },
             {
                 id: 2,
@@ -349,9 +383,10 @@
                 rating: 9.5,
                 year: 2019,
                 episodes: "44",
-                image: "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=600&auto=format&fit=crop",
+                image: "https://i.pinimg.com/736x/39/9b/83/399b83aa72375e3e8aad65b57656f646.jpg",
                 desc: "A family is attacked by demons and only two members survive - Tanjiro and his sister Nezuko, who is turning into a demon slowly. Tanjiro sets out to become a demon slayer to avenge his family and cure his sister.",
-                tags: ["Historical", "Supernatural", "Shounen"]
+                tags: ["Historical", "Supernatural", "Shounen"],
+                studio: "ufotable"
             },
             {
                 id: 3,
@@ -360,9 +395,10 @@
                 rating: 9.9,
                 year: 2016,
                 episodes: "Movie",
-                image: "https://images.unsplash.com/photo-1516726817505-f5ed825624d8?q=80&w=600&auto=format&fit=crop",
+                image: "https://wallpaperaccess.com/full/3500500.jpg",
                 desc: "Two teenagers share a profound, magical connection upon discovering they are swapping bodies. Things manage to become even more complicated when the boy and girl decide to meet in person.",
-                tags: ["Supernatural", "Drama", "School"]
+                tags: ["Supernatural", "Drama", "School"],
+                studio: "CoMix Wave Films"
             },
             {
                 id: 4,
@@ -371,9 +407,10 @@
                 rating: 9.7,
                 year: 2011,
                 episodes: "24",
-                image: "https://images.unsplash.com/photo-1515630278258-407f66498911?q=80&w=600&auto=format&fit=crop",
+                image: "https://s.pacn.ws/1/p/ur/steins-gate-complete-bluray-box-553971.1.jpg?v=p3grfo",
                 desc: "After discovering time travel, a university student and his colleagues must use their knowledge of it to stop an evil organization and their diabolical plans.",
-                tags: ["Time Travel", "Thriller", "Psychological"]
+                tags: ["Time Travel", "Thriller", "Psychological"],
+                studio: "White Fox"
             },
             {
                 id: 5,
@@ -382,9 +419,10 @@
                 rating: 9.6,
                 year: 1988,
                 episodes: "Movie",
-                image: "https://images.unsplash.com/photo-1626544827763-d516dce335ca?q=80&w=600&auto=format&fit=crop",
+                image: "https://i.pinimg.com/736x/a3/e1/73/a3e17320d9f2e3bf3c5e258eb6d4d012.jpg",
                 desc: "When two girls move to the country to be near their ailing mother, they have adventures with the wondrous forest spirits who live nearby.",
-                tags: ["Adventure", "Supernatural", "Slice of Life"]
+                tags: ["Adventure", "Supernatural", "Slice of Life"],
+                studio: "Studio Ghibli"
             },
             {
                 id: 6,
@@ -393,9 +431,10 @@
                 rating: 9.4,
                 year: 2020,
                 episodes: "24",
-                image: "https://images.unsplash.com/photo-1607604276583-eef5f0b7e950?q=80&w=600&auto=format&fit=crop",
+                image: "https://i.pinimg.com/736x/95/dc/42/95dc4275b87abcbfa6ae4ea190a290a2.jpg",
                 desc: "A boy swallows a cursed talisman - the finger of a demon - and becomes cursed himself. He enters a shaman's school to be able to locate the demon's other body parts and thus exorcise himself.",
-                tags: ["School", "Demons", "Supernatural"]
+                tags: ["School", "Demons", "Supernatural"],
+                studio: "MAPPA"
             },
             {
                 id: 7,
@@ -404,9 +443,10 @@
                 rating: 9.3,
                 year: 2018,
                 episodes: "13",
-                image: "https://images.unsplash.com/photo-1535905557558-afc4877a26fc?q=80&w=600&auto=format&fit=crop",
+                image: "https://animeanime.global/wp-content/uploads/2021/10/441016.jpg",
                 desc: "In the aftermath of a great war, Violet Evergarden, a young female ex-soldier, gets a job at a writers' agency and goes on assignments to create letters that can connect people.",
-                tags: ["Drama", "Fantasy", "Slice of Life"]
+                tags: ["Drama", "Fantasy", "Slice of Life"],
+                studio: "Kyoto Animation"
             },
             {
                 id: 8,
@@ -415,9 +455,10 @@
                 rating: 9.8,
                 year: 1998,
                 episodes: "26",
-                image: "https://images.unsplash.com/photo-1535446202401-7765f0806c94?q=80&w=600&auto=format&fit=crop",
+                image: "https://mediaproxy.tvtropes.org/width/1200/https://static.tvtropes.org/pmwiki/pub/images/cowboy_bebop_poster_original.png",
                 desc: "The futuristic misadventures and tragedies of an easygoing bounty hunter and his partners.",
-                tags: ["Space", "Action", "Noir"]
+                tags: ["Space", "Action", "Noir"],
+                studio: "Sunrise"
             },
             {
                 id: 9,
@@ -426,9 +467,10 @@
                 rating: 9.9,
                 year: 2001,
                 episodes: "Movie",
-                image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=600&auto=format&fit=crop",
+                image: "https://i.pinimg.com/1200x/0d/b5/b3/0db5b3a3604ee7efda719b9603636abf.jpg",
                 desc: "During her family's move to the suburbs, a sullen 10-year-old girl wanders into a world ruled by gods, witches, and spirits, and where humans are changed into beasts.",
-                tags: ["Adventure", "Supernatural", "Magic"]
+                tags: ["Adventure", "Supernatural", "Magic"],
+                studio: "Studio Ghibli"
             },
             {
                 id: 10,
@@ -437,11 +479,19 @@
                 rating: 9.6,
                 year: 2006,
                 episodes: "37",
-                image: "https://images.unsplash.com/photo-1509347528160-9a9e33742cd4?q=80&w=600&auto=format&fit=crop",
+                image: "https://geemerch.com/cdn/shop/products/9856.jpg?v=1744928226",
                 desc: "An intelligent high school student goes on a secret crusade to eliminate criminals from the world after discovering a notebook capable of killing anyone whose name is written into it.",
-                tags: ["Psychological", "Thriller", "Police"]
+                tags: ["Psychological", "Thriller", "Police"],
+                studio: "Madhouse"
             }
         ];
+
+        // --- State Management ---
+        let currentFilter = 'all';
+        let searchQuery = '';
+        let bookmarks = JSON.parse(localStorage.getItem('kaze_bookmarks')) || [];
+        let currentModalAnime = null;
+        let showingBookmarksOnly = false;
 
         // --- DOM Elements ---
         const grid = document.getElementById('anime-grid');
@@ -452,6 +502,7 @@
         const resultCount = document.getElementById('result-count');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
+        const toast = document.getElementById('toast');
         
         // Modal Elements
         const modal = document.getElementById('anime-modal');
@@ -459,31 +510,21 @@
         const modalPanel = document.getElementById('modal-panel');
         const closeModalBtn = document.getElementById('close-modal');
 
-        // --- State ---
-        let currentFilter = 'all';
-        let searchQuery = '';
-
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
+            updateBookmarkCount();
             renderGrid();
             setupEventListeners();
         });
 
-        // --- Functions ---
+        // --- Core Functions ---
 
         function setupEventListeners() {
             // Filter Buttons
             filterBtns.forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    // UI Update
-                    filterBtns.forEach(b => {
-                        b.classList.remove('bg-white', 'text-dark-900');
-                        b.classList.add('text-gray-400');
-                    });
-                    e.target.classList.remove('text-gray-400');
-                    e.target.classList.add('bg-white', 'text-dark-900');
-                    
-                    // Logic Update
+                    showingBookmarksOnly = false;
+                    updateFilterUI(e.target);
                     currentFilter = e.target.dataset.filter;
                     renderGrid();
                 });
@@ -506,7 +547,7 @@
             closeModalBtn.addEventListener('click', closeModal);
             modalBackdrop.addEventListener('click', closeModal);
             
-            // Close modal on Escape key
+            // Escape key
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
                     closeModal();
@@ -514,17 +555,39 @@
             });
         }
 
-        function renderGrid() {
-            // Filter Data
-            const filtered = animeData.filter(anime => {
-                const matchesFilter = currentFilter === 'all' || anime.genre === currentFilter;
-                const matchesSearch = anime.title.toLowerCase().includes(searchQuery) || 
-                                      anime.tags.some(tag => tag.toLowerCase().includes(searchQuery));
-                return matchesFilter && matchesSearch;
+        function updateFilterUI(activeBtn) {
+            filterBtns.forEach(b => {
+                b.classList.remove('bg-white', 'text-dark-900');
+                b.classList.add('text-gray-400');
             });
+            activeBtn.classList.remove('text-gray-400');
+            activeBtn.classList.add('bg-white', 'text-dark-900');
+        }
+
+        function renderGrid() {
+            let filtered = animeData;
+
+            // Filter by category
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(anime => anime.genre === currentFilter);
+            }
+
+            // Filter by bookmarks if active
+            if (showingBookmarksOnly) {
+                filtered = filtered.filter(anime => bookmarks.some(b => b.id === anime.id));
+            }
+
+            // Filter by search
+            if (searchQuery) {
+                filtered = filtered.filter(anime => {
+                    const matchesSearch = anime.title.toLowerCase().includes(searchQuery) || 
+                                          anime.tags.some(tag => tag.toLowerCase().includes(searchQuery));
+                    return matchesSearch;
+                });
+            }
 
             // Update Count
-            resultCount.textContent = `${filtered.length} Titles Found`;
+            resultCount.textContent = showingBookmarksOnly ? `Bookmarks (${filtered.length})` : `${filtered.length} Titles Found`;
 
             // Clear Grid
             grid.innerHTML = '';
@@ -532,6 +595,15 @@
             // Empty State
             if (filtered.length === 0) {
                 emptyState.classList.remove('hidden');
+                if (showingBookmarksOnly) {
+                    emptyState.innerHTML = `
+                        <div class="inline-block p-4 rounded-full bg-dark-800 mb-4">
+                            <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
+                        </div>
+                        <h3 class="text-lg font-medium text-white">No bookmarks yet</h3>
+                        <p class="text-gray-500 text-sm mt-1">Start adding anime to your collection.</p>
+                    `;
+                }
                 return;
             } else {
                 emptyState.classList.add('hidden');
@@ -539,14 +611,14 @@
 
             // Render Cards
             filtered.forEach((anime, index) => {
+                const isBookmarked = bookmarks.some(b => b.id === anime.id);
                 const card = document.createElement('div');
                 card.className = 'group cursor-pointer flex flex-col gap-3 animate-fade-in';
                 card.style.animationDelay = `${index * 50}ms`;
-                card.onclick = () => openModal(anime);
-
+                
                 card.innerHTML = `
-                    <div class="card-image-container relative aspect-[2/3] rounded-xl overflow-hidden bg-dark-800 shadow-lg">
-                        <img src="${anime.image}" alt="${anime.title}" class="card-image w-full h-full object-cover" loading="lazy">
+                    <div class="card-image-container relative aspect-[2/3] rounded-xl overflow-hidden bg-dark-800 shadow-lg" onclick="openModal(${anime.id})">
+                        <img src="${anime.image}" alt="${anime.title}" class="card-image w-full h-full object-cover" loading="lazy" onerror="this.src='https://via.placeholder.com/400x600/1c1c1c/6366f1?text=${encodeURIComponent(anime.title)}'">
                         
                         <!-- Overlay Gradient -->
                         <div class="absolute inset-0 bg-gradient-to-t from-dark-900/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -563,17 +635,108 @@
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <h3 class="text-white font-semibold text-sm md:text-base leading-tight group-hover:text-accent-400 transition-colors line-clamp-1">${anime.title}</h3>
-                        <p class="text-gray-500 text-xs mt-1">${anime.year} • ${anime.genre.charAt(0).toUpperCase() + anime.genre.slice(1)}</p>
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1" onclick="openModal(${anime.id})">
+                            <h3 class="text-white font-semibold text-sm md:text-base leading-tight group-hover:text-accent-400 transition-colors line-clamp-1">${anime.title}</h3>
+                            <p class="text-gray-500 text-xs mt-1">${anime.year} • ${anime.genre.charAt(0).toUpperCase() + anime.genre.slice(1)}</p>
+                        </div>
+                        <button onclick="event.stopPropagation(); toggleBookmarkById(${anime.id})" class="bookmark-btn p-1.5 rounded-full hover:bg-dark-700 transition-colors ${isBookmarked ? 'active text-accent-500' : 'text-gray-500'}">
+                            <svg class="w-5 h-5" fill="${isBookmarked ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                            </svg>
+                        </button>
                     </div>
                 `;
                 grid.appendChild(card);
             });
         }
 
+        // --- Bookmark Functions ---
+
+        function toggleBookmark(anime) {
+            const index = bookmarks.findIndex(b => b.id === anime.id);
+            let message = '';
+            
+            if (index > -1) {
+                bookmarks.splice(index, 1);
+                message = 'Removed from Bookmarks';
+            } else {
+                bookmarks.push(anime);
+                message = 'Added to Bookmarks';
+            }
+            
+            localStorage.setItem('kaze_bookmarks', JSON.stringify(bookmarks));
+            updateBookmarkCount();
+            renderGrid();
+            showToast(message);
+            
+            // Update modal button if open
+            if (currentModalAnime && currentModalAnime.id === anime.id) {
+                updateModalBookmarkBtn(anime.id);
+            }
+        }
+
+        function toggleBookmarkById(id) {
+            const anime = animeData.find(a => a.id === id);
+            if (anime) toggleBookmark(anime);
+        }
+
+        function toggleModalBookmark() {
+            if (currentModalAnime) {
+                toggleBookmark(currentModalAnime);
+            }
+        }
+
+        function updateBookmarkCount() {
+            const count = bookmarks.length;
+            document.getElementById('bookmark-count').textContent = count;
+            document.getElementById('mobile-bookmark-count').textContent = count;
+            
+            const indicator = document.getElementById('bottom-bookmark-indicator');
+            if (count > 0) {
+                indicator.classList.remove('hidden');
+            } else {
+                indicator.classList.add('hidden');
+            }
+        }
+
+        function filterByBookmark() {
+            showingBookmarksOnly = true;
+            // Reset filter buttons visually
+            filterBtns.forEach(b => {
+                b.classList.remove('bg-white', 'text-dark-900');
+                b.classList.add('text-gray-400');
+            });
+            renderGrid();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetFilter() {
+            showingBookmarksOnly = false;
+            searchQuery = '';
+            searchInput.value = '';
+            mobileSearch.value = '';
+            updateFilterUI(document.querySelector('[data-filter="all"]'));
+            currentFilter = 'all';
+            renderGrid();
+        }
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
         // --- Modal Logic ---
-        function openModal(anime) {
+
+        function openModal(id) {
+            const anime = animeData.find(a => a.id === id);
+            if (!anime) return;
+            
+            currentModalAnime = anime;
+
             // Populate Data
             document.getElementById('modal-title').textContent = anime.title;
             document.getElementById('modal-image').src = anime.image;
@@ -582,22 +745,38 @@
             document.getElementById('modal-genre').textContent = anime.genre;
             document.getElementById('modal-desc').textContent = anime.desc;
             document.getElementById('modal-episodes').textContent = anime.episodes;
+            document.getElementById('modal-studio').textContent = anime.studio || 'Unknown';
             
             const tagsContainer = document.getElementById('modal-tags');
             tagsContainer.innerHTML = anime.tags.map(tag => 
                 `<span class="px-3 py-1 rounded-full bg-dark-700 text-gray-300 text-xs border border-dark-600">${tag}</span>`
             ).join('');
 
+            updateModalBookmarkBtn(id);
+
             // Show Modal
             modal.classList.remove('hidden');
-            // Small delay for animation
             setTimeout(() => {
                 modalBackdrop.classList.remove('opacity-0');
                 modalPanel.classList.remove('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
                 modalPanel.classList.add('opacity-100', 'translate-y-0', 'sm:scale-100');
             }, 10);
             
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            document.body.style.overflow = 'hidden';
+        }
+
+        function updateModalBookmarkBtn(id) {
+            const btn = document.getElementById('modal-bookmark-btn');
+            const isBookmarked = bookmarks.some(b => b.id === id);
+            if (isBookmarked) {
+                btn.classList.add('bg-accent-500', 'text-white');
+                btn.classList.remove('bg-dark-700/80', 'text-white');
+                btn.innerHTML = `<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>`;
+            } else {
+                btn.classList.remove('bg-accent-500', 'text-white');
+                btn.classList.add('bg-dark-700/80', 'text-white');
+                btn.innerHTML = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>`;
+            }
         }
 
         function closeModal() {
@@ -608,9 +787,9 @@
             setTimeout(() => {
                 modal.classList.add('hidden');
                 document.body.style.overflow = '';
+                currentModalAnime = null;
             }, 300);
         }
-
     </script>
 </body>
 </html>
