@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orkyus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            900: '#0a0a0a',
+                            800: '#121212',
+                            700: '#1c1c1c',
+                            600: '#262626',
+                        },
+                        accent: {
+                            500: '#6366f1', // Indigo
+                            400: '#818cf8',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'slide-up': 'slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #262626;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #404040;
+        }
+
+        /* Hide scrollbar for horizontal scroll areas but keep functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Image Hover Zoom */
+        .card-image-container {
+            overflow: hidden;
+        }
+        .card-image {
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .group:hover .card-image {
+            transform: scale(1.05);
+        }
+        
+        /* Glassmorphism utilities */
+        .glass {
+            background: rgba(18, 18, 18, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Loader */
+        .loader {
+            border: 2px solid #1c1c1c;
+            border-top: 2px solid #6366f1;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-dark-900 text-gray-100 antialiased min-h-screen selection:bg-accent-500 selection:text-white pb-20 md:pb-0">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <span class="text-2xl font-bold tracking-tighter text-white">Onkmade<span class="text-accent-500">.</span></span>
+                </div>
+                
+                <!-- Desktop Search -->
+                <div class="hidden md:block flex-1 max-w-md mx-8">
+                    <div class="relative group">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-4 w-4 text-gray-500 group-focus-within:text-accent-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                        <input type="text" id="desktop-search" class="block w-full pl-10 pr-3 py-2 border border-dark-600 rounded-full leading-5 bg-dark-800 text-gray-300 placeholder-gray-500 focus:outline-none focus:bg-dark-700 focus:border-accent-500 focus:ring-1 focus:ring-accent-500 sm:text-sm transition-all duration-200" placeholder="Search anime, genres...">
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-center space-x-8">
+                        <a href="#" class="text-sm font-medium text-white hover:text-accent-400 transition-colors">Discover</a>
+                        <a href="#" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Trending</a>
+                        <a href="#" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Seasonal</a>
+                        <div class="h-8 w-8 rounded-full bg-gradient-to-tr from-accent-500 to-purple-500 p-[1px] cursor-pointer hover:scale-105 transition-transform">
+                            <div class="h-full w-full rounded-full bg-dark-800 flex items-center justify-center text-xs font-bold text-white">U</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-400 hover:text-white focus:outline-none p-2">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dark-800 border-b border-dark-700 absolute w-full">
+            <div class="px-4 pt-2 pb-4 space-y-1">
+                <input type="text" id="mobile-search" class="block w-full pl-4 pr-3 py-3 border border-dark-600 rounded-lg bg-dark-900 text-white placeholder-gray-500 focus:outline-none focus:border-accent-500 mb-4" placeholder="Search anime...">
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-dark-700">Discover</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-dark-700">Trending</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-dark-700">Seasonal</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-dark-700">My List</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-16">
+        
+        <!-- Hero Section -->
+        <section class="relative h-[50vh] md:h-[70vh] w-full overflow-hidden flex items-end">
+            <!-- Background Image with Gradient -->
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=2560&auto=format&fit=crop" alt="Hero Background" class="w-full h-full object-cover opacity-60">
+                <div class="absolute inset-0 bg-gradient-to-t from-dark-900 via-dark-900/60 to-transparent"></div>
+            </div>
+
+            <!-- Hero Content -->
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 md:pb-20 w-full">
+                <div class="max-w-2xl animate-slide-up">
+                    <span class="inline-block py-1 px-3 rounded-full bg-accent-500/20 border border-accent-500/30 text-accent-400 text-xs font-semibold tracking-wide mb-4 backdrop-blur-sm">FEATURED</span>
+                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight leading-tight">Cyberpunk: <br>Edgerunners</h1>
+                    <p class="text-gray-300 text-sm md:text-lg mb-8 line-clamp-3 md:line-clamp-none max-w-lg">
+                        In a dystopia riddled with corruption and cybernetic implants, a talented but reckless street kid strives to become a mercenary outlaw.
+                    </p>
+                    <div class="flex space-x-4">
+                        <button class="bg-white text-dark-900 px-6 py-3 rounded-full font-semibold text-sm hover:bg-gray-200 transition-colors flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" /></svg>
+                            Watch Now
+                        </button>
+                        <button class="bg-dark-800/50 backdrop-blur-md border border-white/10 text-white px-6 py-3 rounded-full font-semibold text-sm hover:bg-dark-700 transition-colors">
+                            + My List
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filter Section -->
+        <section class="sticky top-16 z-40 bg-dark-900/95 backdrop-blur border-b border-dark-700 py-4">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between">
+                    <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-1" id="filter-container">
+                        <button class="filter-btn active px-4 py-1.5 rounded-full text-sm font-medium bg-white text-dark-900 transition-all" data-filter="all">All</button>
+                        <button class="filter-btn px-4 py-1.5 rounded-full text-sm font-medium text-gray-400 hover:text-white hover:bg-dark-700 transition-all" data-filter="action">Action</button>
+                        <button class="filter-btn px-4 py-1.5 rounded-full text-sm font-medium text-gray-400 hover:text-white hover:bg-dark-700 transition-all" data-filter="romance">Romance</button>
+                        <button class="filter-btn px-4 py-1.5 rounded-full text-sm font-medium text-gray-400 hover:text-white hover:bg-dark-700 transition-all" data-filter="sci-fi">Sci-Fi</button>
+                        <button class="filter-btn px-4 py-1.5 rounded-full text-sm font-medium text-gray-400 hover:text-white hover:bg-dark-700 transition-all" data-filter="fantasy">Fantasy</button>
+                    </div>
+                    <div class="hidden md:block text-xs text-gray-500 font-mono" id="result-count">Loading...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Anime Grid -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div id="anime-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-4 gap-y-8 md:gap-x-6 md:gap-y-10">
+                <!-- Grid items injected via JS -->
+            </div>
+            
+            <!-- Empty State -->
+            <div id="empty-state" class="hidden py-20 text-center">
+                <div class="inline-block p-4 rounded-full bg-dark-800 mb-4">
+                    <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h3 class="text-lg font-medium text-white">No anime found</h3>
+                <p class="text-gray-500 text-sm mt-1">Try adjusting your search or filters.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="md:hidden fixed bottom-0 left-0 w-full bg-dark-800 border-t border-dark-700 z-50 pb-safe">
+        <div class="flex justify-around items-center h-16">
+            <button class="flex flex-col items-center justify-center w-full h-full text-accent-500 space-y-1">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                <span class="text-[10px] font-medium">Home</span>
+            </button>
+            <button class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-gray-300 space-y-1">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <span class="text-[10px] font-medium">Trending</span>
+            </button>
+            <button class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-gray-300 space-y-1">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                <span class="text-[10px] font-medium">Saved</span>
+            </button>
+            <button class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-gray-300 space-y-1">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                <span class="text-[10px] font-medium">Profile</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Anime Detail Modal -->
+    <div id="anime-modal" class="fixed inset-0 z-[60] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-dark-900/90 backdrop-blur-sm transition-opacity opacity-0" id="modal-backdrop"></div>
+
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-end justify-center p-0 md:items-center md:p-4 text-center sm:p-0">
+                
+                <div class="relative transform overflow-hidden rounded-t-2xl md:rounded-2xl bg-dark-800 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-2xl border border-dark-700 opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" id="modal-panel">
+                    
+                    <!-- Close Button -->
+                    <button id="close-modal" class="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/50 text-white hover:bg-white hover:text-black transition-colors backdrop-blur">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+
+                    <!-- Modal Content -->
+                    <div class="relative">
+                        <!-- Header Image -->
+                        <div class="h-48 md:h-64 w-full relative">
+                            <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-dark-800 via-dark-800/40 to-transparent"></div>
+                            <div class="absolute bottom-4 left-6">
+                                <h3 class="text-2xl md:text-3xl font-bold text-white tracking-tight" id="modal-title">Title</h3>
+                                <div class="flex items-center space-x-3 mt-2 text-sm text-gray-300">
+                                    <span class="text-accent-400 font-semibold" id="modal-rating">★ 4.9</span>
+                                    <span>•</span>
+                                    <span id="modal-year">2023</span>
+                                    <span>•</span>
+                                    <span id="modal-genre" class="border border-gray-600 px-2 py-0.5 rounded text-xs uppercase tracking-wider">Action</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Body -->
+                        <div class="px-6 py-6">
+                            <div class="flex flex-wrap gap-2 mb-6" id="modal-tags">
+                                <!-- Tags injected here -->
+                            </div>
+
+                            <p class="text-gray-300 leading-relaxed mb-8 text-sm md:text-base" id="modal-desc">
+                                Description goes here...
+                            </p>
+
+                            <div class="grid grid-cols-3 gap-4 mb-8 border-y border-dark-700 py-4">
+                                <div class="text-center">
+                                    <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Episodes</div>
+                                    <div class="text-lg font-semibold text-white" id="modal-episodes">12</div>
+                                </div>
+                                <div class="text-center border-l border-dark-700">
+                                    <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Status</div>
+                                    <div class="text-lg font-semibold text-white">Finished</div>
+                                </div>
+                                <div class="text-center border-l border-dark-700">
+                                    <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Studio</div>
+                                    <div class="text-lg font-semibold text-white">MAPPA</div>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-4">
+                                <button class="flex-1 bg-accent-600 hover:bg-accent-500 text-white py-3 rounded-xl font-semibold transition-colors shadow-lg shadow-accent-900/20">
+                                    Watch Now
+                                </button>
+                                <button class="px-4 py-3 rounded-xl border border-dark-600 hover:bg-dark-700 text-white transition-colors">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Data Source ---
+        const animeData = [
+            {
+                id: 1,
+                title: "Attack on Titan",
+                genre: "action",
+                rating: 9.8,
+                year: 2013,
+                episodes: "87",
+                image: "https://images.unsplash.com/photo-1541562232579-512a21360020?q=80&w=600&auto=format&fit=crop",
+                desc: "Humanity lives inside cities surrounded by enormous walls that protect them from gigantic man-eating humanoids referred to as Titans. The story follows Eren Yeager, who vows to retake the world after a Titan brings about the destruction of his home town and the death of his mother.",
+                tags: ["Dark Fantasy", "Survival", "Military"]
+            },
+            {
+                id: 2,
+                title: "Demon Slayer",
+                genre: "action",
+                rating: 9.5,
+                year: 2019,
+                episodes: "44",
+                image: "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=600&auto=format&fit=crop",
+                desc: "A family is attacked by demons and only two members survive - Tanjiro and his sister Nezuko, who is turning into a demon slowly. Tanjiro sets out to become a demon slayer to avenge his family and cure his sister.",
+                tags: ["Historical", "Supernatural", "Shounen"]
+            },
+            {
+                id: 3,
+                title: "Your Name",
+                genre: "romance",
+                rating: 9.9,
+                year: 2016,
+                episodes: "Movie",
+                image: "https://images.unsplash.com/photo-1516726817505-f5ed825624d8?q=80&w=600&auto=format&fit=crop",
+                desc: "Two teenagers share a profound, magical connection upon discovering they are swapping bodies. Things manage to become even more complicated when the boy and girl decide to meet in person.",
+                tags: ["Supernatural", "Drama", "School"]
+            },
+            {
+                id: 4,
+                title: "Steins;Gate",
+                genre: "sci-fi",
+                rating: 9.7,
+                year: 2011,
+                episodes: "24",
+                image: "https://images.unsplash.com/photo-1515630278258-407f66498911?q=80&w=600&auto=format&fit=crop",
+                desc: "After discovering time travel, a university student and his colleagues must use their knowledge of it to stop an evil organization and their diabolical plans.",
+                tags: ["Time Travel", "Thriller", "Psychological"]
+            },
+            {
+                id: 5,
+                title: "My Neighbor Totoro",
+                genre: "fantasy",
+                rating: 9.6,
+                year: 1988,
+                episodes: "Movie",
+                image: "https://images.unsplash.com/photo-1626544827763-d516dce335ca?q=80&w=600&auto=format&fit=crop",
+                desc: "When two girls move to the country to be near their ailing mother, they have adventures with the wondrous forest spirits who live nearby.",
+                tags: ["Adventure", "Supernatural", "Slice of Life"]
+            },
+            {
+                id: 6,
+                title: "Jujutsu Kaisen",
+                genre: "action",
+                rating: 9.4,
+                year: 2020,
+                episodes: "24",
+                image: "https://images.unsplash.com/photo-1607604276583-eef5f0b7e950?q=80&w=600&auto=format&fit=crop",
+                desc: "A boy swallows a cursed talisman - the finger of a demon - and becomes cursed himself. He enters a shaman's school to be able to locate the demon's other body parts and thus exorcise himself.",
+                tags: ["School", "Demons", "Supernatural"]
+            },
+            {
+                id: 7,
+                title: "Violet Evergarden",
+                genre: "romance",
+                rating: 9.3,
+                year: 2018,
+                episodes: "13",
+                image: "https://images.unsplash.com/photo-1535905557558-afc4877a26fc?q=80&w=600&auto=format&fit=crop",
+                desc: "In the aftermath of a great war, Violet Evergarden, a young female ex-soldier, gets a job at a writers' agency and goes on assignments to create letters that can connect people.",
+                tags: ["Drama", "Fantasy", "Slice of Life"]
+            },
+            {
+                id: 8,
+                title: "Cowboy Bebop",
+                genre: "sci-fi",
+                rating: 9.8,
+                year: 1998,
+                episodes: "26",
+                image: "https://images.unsplash.com/photo-1535446202401-7765f0806c94?q=80&w=600&auto=format&fit=crop",
+                desc: "The futuristic misadventures and tragedies of an easygoing bounty hunter and his partners.",
+                tags: ["Space", "Action", "Noir"]
+            },
+            {
+                id: 9,
+                title: "Spirited Away",
+                genre: "fantasy",
+                rating: 9.9,
+                year: 2001,
+                episodes: "Movie",
+                image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=600&auto=format&fit=crop",
+                desc: "During her family's move to the suburbs, a sullen 10-year-old girl wanders into a world ruled by gods, witches, and spirits, and where humans are changed into beasts.",
+                tags: ["Adventure", "Supernatural", "Magic"]
+            },
+            {
+                id: 10,
+                title: "Death Note",
+                genre: "fantasy",
+                rating: 9.6,
+                year: 2006,
+                episodes: "37",
+                image: "https://images.unsplash.com/photo-1509347528160-9a9e33742cd4?q=80&w=600&auto=format&fit=crop",
+                desc: "An intelligent high school student goes on a secret crusade to eliminate criminals from the world after discovering a notebook capable of killing anyone whose name is written into it.",
+                tags: ["Psychological", "Thriller", "Police"]
+            }
+        ];
+
+        // --- DOM Elements ---
+        const grid = document.getElementById('anime-grid');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const searchInput = document.getElementById('desktop-search');
+        const mobileSearch = document.getElementById('mobile-search');
+        const emptyState = document.getElementById('empty-state');
+        const resultCount = document.getElementById('result-count');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        // Modal Elements
+        const modal = document.getElementById('anime-modal');
+        const modalBackdrop = document.getElementById('modal-backdrop');
+        const modalPanel = document.getElementById('modal-panel');
+        const closeModalBtn = document.getElementById('close-modal');
+
+        // --- State ---
+        let currentFilter = 'all';
+        let searchQuery = '';
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderGrid();
+            setupEventListeners();
+        });
+
+        // --- Functions ---
+
+        function setupEventListeners() {
+            // Filter Buttons
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    // UI Update
+                    filterBtns.forEach(b => {
+                        b.classList.remove('bg-white', 'text-dark-900');
+                        b.classList.add('text-gray-400');
+                    });
+                    e.target.classList.remove('text-gray-400');
+                    e.target.classList.add('bg-white', 'text-dark-900');
+                    
+                    // Logic Update
+                    currentFilter = e.target.dataset.filter;
+                    renderGrid();
+                });
+            });
+
+            // Search Inputs
+            const handleSearch = (e) => {
+                searchQuery = e.target.value.toLowerCase();
+                renderGrid();
+            };
+            searchInput.addEventListener('input', handleSearch);
+            mobileSearch.addEventListener('input', handleSearch);
+
+            // Mobile Menu
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Modal Close
+            closeModalBtn.addEventListener('click', closeModal);
+            modalBackdrop.addEventListener('click', closeModal);
+            
+            // Close modal on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
+        }
+
+        function renderGrid() {
+            // Filter Data
+            const filtered = animeData.filter(anime => {
+                const matchesFilter = currentFilter === 'all' || anime.genre === currentFilter;
+                const matchesSearch = anime.title.toLowerCase().includes(searchQuery) || 
+                                      anime.tags.some(tag => tag.toLowerCase().includes(searchQuery));
+                return matchesFilter && matchesSearch;
+            });
+
+            // Update Count
+            resultCount.textContent = `${filtered.length} Titles Found`;
+
+            // Clear Grid
+            grid.innerHTML = '';
+
+            // Empty State
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            // Render Cards
+            filtered.forEach((anime, index) => {
+                const card = document.createElement('div');
+                card.className = 'group cursor-pointer flex flex-col gap-3 animate-fade-in';
+                card.style.animationDelay = `${index * 50}ms`;
+                card.onclick = () => openModal(anime);
+
+                card.innerHTML = `
+                    <div class="card-image-container relative aspect-[2/3] rounded-xl overflow-hidden bg-dark-800 shadow-lg">
+                        <img src="${anime.image}" alt="${anime.title}" class="card-image w-full h-full object-cover" loading="lazy">
+                        
+                        <!-- Overlay Gradient -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark-900/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        
+                        <!-- Rating Badge -->
+                        <div class="absolute top-2 right-2 bg-dark-900/80 backdrop-blur text-xs font-bold text-accent-400 px-2 py-1 rounded border border-white/10">
+                            ${anime.rating}
+                        </div>
+
+                        <!-- Play Icon Overlay -->
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-90 group-hover:scale-100">
+                            <div class="w-12 h-12 bg-accent-500 rounded-full flex items-center justify-center shadow-lg shadow-accent-500/40">
+                                <svg class="w-5 h-5 text-white ml-1" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 5.84a.5.5 0 01.77-.42l7.15 4.16a.5.5 0 010 .84l-7.15 4.16a.5.5 0 01-.77-.42V5.84z" /></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-semibold text-sm md:text-base leading-tight group-hover:text-accent-400 transition-colors line-clamp-1">${anime.title}</h3>
+                        <p class="text-gray-500 text-xs mt-1">${anime.year} • ${anime.genre.charAt(0).toUpperCase() + anime.genre.slice(1)}</p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // --- Modal Logic ---
+        function openModal(anime) {
+            // Populate Data
+            document.getElementById('modal-title').textContent = anime.title;
+            document.getElementById('modal-image').src = anime.image;
+            document.getElementById('modal-rating').textContent = `★ ${anime.rating}`;
+            document.getElementById('modal-year').textContent = anime.year;
+            document.getElementById('modal-genre').textContent = anime.genre;
+            document.getElementById('modal-desc').textContent = anime.desc;
+            document.getElementById('modal-episodes').textContent = anime.episodes;
+            
+            const tagsContainer = document.getElementById('modal-tags');
+            tagsContainer.innerHTML = anime.tags.map(tag => 
+                `<span class="px-3 py-1 rounded-full bg-dark-700 text-gray-300 text-xs border border-dark-600">${tag}</span>`
+            ).join('');
+
+            // Show Modal
+            modal.classList.remove('hidden');
+            // Small delay for animation
+            setTimeout(() => {
+                modalBackdrop.classList.remove('opacity-0');
+                modalPanel.classList.remove('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+                modalPanel.classList.add('opacity-100', 'translate-y-0', 'sm:scale-100');
+            }, 10);
+            
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeModal() {
+            modalBackdrop.classList.add('opacity-0');
+            modalPanel.classList.remove('opacity-100', 'translate-y-0', 'sm:scale-100');
+            modalPanel.classList.add('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+    </script>
+</body>
+</html>

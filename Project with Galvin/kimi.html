@@ -12,178 +12,141 @@
         }
 
         :root {
-            --primary: #0a0a0a;
-            --secondary: #111;
+            --primary: #050505;
             --accent: #00d4ff;
-            --accent-warm: #ff6b6b;
-            --accent-purple: #c084fc;
-            --text: #e0e0e0;
-            --text-dim: #666;
-        }
-
-        html {
-            scroll-behavior: smooth;
+            --accent-glow: rgba(0, 212, 255, 0.4);
         }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: 'Inter', system-ui, sans-serif;
             background: var(--primary);
-            color: var(--text);
-            line-height: 1.6;
+            color: #fff;
             overflow-x: hidden;
+            cursor: none;
         }
 
-        /* 3D Hero Section */
-        .hero-3d {
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-follower {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            background: var(--accent-glow);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            filter: blur(10px);
+            transition: transform 0.3s ease-out;
+        }
+
+        /* Hero Section */
+        .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            background: radial-gradient(circle at center, #0a0a0f 0%, #000 100%);
             perspective: 1000px;
-            overflow: hidden;
-            background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0a 70%);
         }
 
-        /* Floating particles */
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--accent);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: float 20s infinite linear;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
-            100% { transform: translateY(-10vh) translateX(100px); opacity: 0; }
-        }
-
-        /* 3D Scene Container */
-        .scene-3d {
+        /* 3D Reactive Object */
+        .reactive-scene {
             position: relative;
             width: 400px;
             height: 400px;
             transform-style: preserve-3d;
-            animation: levitate 6s ease-in-out infinite;
         }
 
-        @keyframes levitate {
-            0%, 100% { transform: translateY(0px) rotateX(0deg); }
-            50% { transform: translateY(-20px) rotateX(5deg); }
-        }
-
-        /* The Morphing Blob */
-        .morph-blob {
+        /* Main Core */
+        .core {
             position: absolute;
-            width: 300px;
-            height: 300px;
+            width: 200px;
+            height: 200px;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-purple) 50%, var(--accent-warm) 100%);
-            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-            animation: morph 8s ease-in-out infinite;
-            box-shadow: 
-                0 0 60px rgba(0, 212, 255, 0.3),
-                0 0 120px rgba(192, 132, 252, 0.2),
-                inset 0 0 60px rgba(255, 255, 255, 0.1);
-            filter: blur(0px);
+            transform-style: preserve-3d;
             transition: transform 0.1s ease-out;
         }
 
-        @keyframes morph {
-            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-            25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
-            50% { border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%; }
-            75% { border-radius: 60% 40% 60% 30% / 70% 30% 50% 60%; }
-        }
-
-        /* Inner Glow Ring */
-        .glow-ring {
+        .core-face {
             position: absolute;
-            width: 350px;
-            height: 350px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 2px solid rgba(0, 212, 255, 0.2);
-            border-radius: 50%;
-            animation: pulse-ring 4s ease-in-out infinite;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, 
+                rgba(0, 212, 255, 0.1) 0%, 
+                rgba(0, 212, 255, 0.05) 100%);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s;
         }
 
-        @keyframes pulse-ring {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
-        }
+        /* Cube faces */
+        .core-face:nth-child(1) { transform: translateZ(100px); }
+        .core-face:nth-child(2) { transform: rotateY(180deg) translateZ(100px); }
+        .core-face:nth-child(3) { transform: rotateY(90deg) translateZ(100px); }
+        .core-face:nth-child(4) { transform: rotateY(-90deg) translateZ(100px); }
+        .core-face:nth-child(5) { transform: rotateX(90deg) translateZ(100px); }
+        .core-face:nth-child(6) { transform: rotateX(-90deg) translateZ(100px); }
 
-        /* Orbiting Elements */
-        .orbit {
+        /* Inner Glow */
+        .core-glow {
             position: absolute;
             width: 100%;
             height: 100%;
-            transform-style: preserve-3d;
-            animation: rotate 20s linear infinite;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            transform: translateZ(-50px);
+            animation: pulse 3s ease-in-out infinite;
         }
 
-        .satellite {
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: translateZ(-50px) scale(1); }
+            50% { opacity: 1; transform: translateZ(-50px) scale(1.2); }
+        }
+
+        /* Reactive Rings */
+        .ring {
             position: absolute;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%) translateZ(200px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .satellite:nth-child(2) {
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 50%;
             top: 50%;
-            right: 0;
-            left: auto;
-            transform: translateY(-50%) translateZ(150px);
-            animation-delay: -5s;
-        }
-
-        .satellite:nth-child(3) {
-            bottom: 0;
-            top: auto;
             left: 50%;
-            transform: translateX(-50%) translateZ(180px);
-            animation-delay: -10s;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease-out;
         }
 
-        @keyframes rotate {
-            0% { transform: rotateY(0deg) rotateX(20deg); }
-            100% { transform: rotateY(360deg) rotateX(20deg); }
+        .ring:nth-child(1) { width: 300px; height: 300px; }
+        .ring:nth-child(2) { width: 400px; height: 400px; }
+        .ring:nth-child(3) { width: 500px; height: 500px; }
+
+        /* Connection Lines to Cursor */
+        .connection-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
         }
 
-        /* Content Overlay */
+        /* Content */
         .hero-content {
             position: absolute;
             text-align: center;
             z-index: 10;
             pointer-events: none;
-            mix-blend-mode: difference;
         }
 
         .hero-content h1 {
@@ -191,35 +154,30 @@
             font-weight: 900;
             line-height: 0.9;
             letter-spacing: -0.05em;
-            margin-bottom: 1.5rem;
-            color: #fff;
+            margin-bottom: 1rem;
         }
 
         .hero-content p {
             font-size: 1.25rem;
-            color: rgba(255,255,255,0.8);
-            max-width: 500px;
-            margin: 0 auto 2rem;
-            font-weight: 300;
+            color: #888;
+            margin-bottom: 2rem;
         }
 
         .hero-content .btn {
             pointer-events: auto;
             display: inline-block;
             padding: 1rem 2.5rem;
-            background: #fff;
-            color: #000;
+            background: transparent;
+            color: #fff;
             text-decoration: none;
             border-radius: 50px;
-            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.2);
             transition: all 0.3s;
-            border: 2px solid #fff;
         }
 
         .hero-content .btn:hover {
-            background: transparent;
-            color: #fff;
-            transform: translateY(-2px);
+            background: #fff;
+            color: #000;
         }
 
         /* Navigation */
@@ -230,41 +188,36 @@
             padding: 1.5rem 5%;
             display: flex;
             justify-content: space-between;
-            align-items: center;
             z-index: 100;
-            mix-blend-mode: difference;
         }
 
         .logo {
             font-size: 1.5rem;
             font-weight: 800;
             color: #fff;
-            letter-spacing: -1px;
         }
 
         .nav-links {
             display: flex;
-            gap: 2.5rem;
+            gap: 2rem;
             list-style: none;
         }
 
         .nav-links a {
-            color: #fff;
+            color: #888;
             text-decoration: none;
             font-size: 0.9rem;
-            font-weight: 500;
-            opacity: 0.7;
-            transition: opacity 0.3s;
+            transition: color 0.3s;
         }
 
         .nav-links a:hover {
-            opacity: 1;
+            color: var(--accent);
         }
 
-        /* Projects Section */
+        /* Sections */
         .projects {
             padding: 8rem 5%;
-            background: var(--secondary);
+            background: #0a0a0a;
         }
 
         .section-header {
@@ -274,12 +227,6 @@
 
         .section-header h2 {
             font-size: 2.5rem;
-            margin-bottom: 1rem;
-            letter-spacing: -1px;
-        }
-
-        .section-header p {
-            color: var(--text-dim);
         }
 
         .project-grid {
@@ -291,213 +238,65 @@
         }
 
         .project-card {
-            background: var(--primary);
-            border-radius: 20px;
+            background: #111;
+            border-radius: 16px;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #222;
+            transition: all 0.3s;
         }
 
         .project-card:hover {
-            transform: translateY(-8px) scale(1.02);
             border-color: var(--accent);
-            box-shadow: 0 30px 60px rgba(0,212,255,0.1);
+            transform: translateY(-5px);
         }
 
         .project-image {
-            height: 240px;
-            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f23 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-image::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent 40%, rgba(0,212,255,0.1) 50%, transparent 60%);
-            transform: translateX(-100%);
-            transition: transform 0.6s;
-        }
-
-        .project-card:hover .project-image::after {
-            transform: translateX(100%);
+            height: 200px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
         }
 
         .project-content {
             padding: 1.5rem;
         }
 
-        .project-tags {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
         .tag {
+            display: inline-block;
             padding: 0.25rem 0.75rem;
-            background: rgba(0,212,255,0.1);
+            background: rgba(0, 212, 255, 0.1);
             color: var(--accent);
             border-radius: 20px;
             font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .project-content h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .project-content p {
-            color: var(--text-dim);
-            font-size: 0.95rem;
-        }
-
-        /* Skills */
-        .skills {
-            padding: 8rem 5%;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .skill-category {
-            background: var(--secondary);
-            padding: 2rem;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.3s;
-        }
-
-        .skill-category:hover {
-            border-color: var(--accent);
-            transform: translateY(-4px);
-        }
-
-        .skill-category h3 {
-            color: var(--accent);
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1.5rem;
-        }
-
-        .skill-list {
-            list-style: none;
-        }
-
-        .skill-list li {
-            padding: 0.75rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            display: flex;
-            justify-content: space-between;
-            color: var(--text-dim);
-        }
-
-        .skill-list li:last-child {
-            border-bottom: none;
-        }
-
-        /* Contact */
-        .contact {
-            padding: 8rem 5%;
-            background: var(--secondary);
-            text-align: center;
-        }
-
-        .contact-box {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 3rem;
-            background: var(--primary);
-            border-radius: 24px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .contact h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .contact p {
-            color: var(--text-dim);
-            margin-bottom: 2rem;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .social-links a {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--secondary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text);
-            text-decoration: none;
-            transition: all 0.3s;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .social-links a:hover {
-            background: var(--accent);
-            color: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        /* Footer */
-        footer {
-            padding: 2rem;
-            text-align: center;
-            color: var(--text-dim);
-            font-size: 0.875rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-right: 0.5rem;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .scene-3d {
+            .reactive-scene {
                 width: 300px;
                 height: 300px;
             }
-            .morph-blob {
-                width: 200px;
-                height: 200px;
+            .core {
+                width: 150px;
+                height: 150px;
             }
-            .nav-links {
-                display: none;
+            .core-face {
+                width: 150px;
+                height: 150px;
             }
-        }
-
-        /* Scroll reveal */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+            .core-face:nth-child(1) { transform: translateZ(75px); }
+            .core-face:nth-child(2) { transform: rotateY(180deg) translateZ(75px); }
+            .core-face:nth-child(3) { transform: rotateY(90deg) translateZ(75px); }
+            .core-face:nth-child(4) { transform: rotateY(-90deg) translateZ(75px); }
+            .core-face:nth-child(5) { transform: rotateX(90deg) translateZ(75px); }
+            .core-face:nth-child(6) { transform: rotateX(-90deg) translateZ(75px); }
         }
     </style>
 </head>
 <body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="follower"></div>
 
     <nav>
         <div class="logo">AC.</div>
@@ -508,212 +307,253 @@
         </ul>
     </nav>
 
-    <section class="hero-3d">
-        <div class="particles" id="particles"></div>
-        
-        <div class="scene-3d" id="scene3d">
-            <div class="glow-ring"></div>
-            <div class="morph-blob" id="morphBlob"></div>
-            <div class="orbit">
-                <div class="satellite">⚡</div>
-                <div class="satellite">◈</div>
-                <div class="satellite">◎</div>
+    <section class="hero">
+        <div class="reactive-scene" id="scene">
+            <!-- Expanding Rings -->
+            <div class="ring" id="ring1"></div>
+            <div class="ring" id="ring2"></div>
+            <div class="ring" id="ring3"></div>
+            
+            <!-- Central Core -->
+            <div class="core" id="core">
+                <div class="core-face"></div>
+                <div class="core-face"></div>
+                <div class="core-face"></div>
+                <div class="core-face"></div>
+                <div class="core-face"></div>
+                <div class="core-face"></div>
+                <div class="core-glow"></div>
             </div>
+
+            <!-- Canvas for cursor connections -->
+            <canvas class="connection-canvas" id="connectionCanvas"></canvas>
         </div>
 
         <div class="hero-content">
-            <h1>Alex<br>Chen</h1>
-            <p>Creative Developer & Digital Artisan<br>Building the future of web experiences</p>
-            <a href="#work" class="btn">Explore Work</a>
+            <h1>Alex Chen</h1>
+            <p>Move your cursor to interact</p>
+            <a href="#work" class="btn">View Work</a>
         </div>
     </section>
 
     <section class="projects" id="work">
-        <div class="section-header reveal">
+        <div class="section-header">
             <h2>Selected Projects</h2>
-            <p>Interactive experiences crafted with code and creativity</p>
         </div>
-        
         <div class="project-grid">
-            <article class="project-card reveal">
+            <div class="project-card">
                 <div class="project-image"></div>
                 <div class="project-content">
-                    <div class="project-tags">
-                        <span class="tag">WebGL</span>
-                        <span class="tag">React</span>
-                    </div>
-                    <h3>Nebula Interface</h3>
-                    <p>Immersive data visualization platform with real-time GPU rendering</p>
+                    <span class="tag">React</span>
+                    <span class="tag">WebGL</span>
+                    <h3>Interactive Dashboard</h3>
                 </div>
-            </article>
-
-            <article class="project-card reveal">
-                <div class="project-image"></div>
-                <div class="project-content">
-                    <div class="project-tags">
-                        <span class="tag">Three.js</span>
-                        <span class="tag">AI</span>
-                    </div>
-                    <h3>Synth Mind</h3>
-                    <p>AI-powered creative assistant with generative 3D environments</p>
-                </div>
-            </article>
-
-            <article class="project-card reveal">
-                <div class="project-image"></div>
-                <div class="project-content">
-                    <div class="project-tags">
-                        <span class="tag">Canvas</span>
-                        <span class="tag">Motion</span>
-                    </div>
-                    <h3>Vector Flow</h3>
-                    <p>Browser-based motion graphics suite with physics simulation</p>
-                </div>
-            </article>
-        </div>
-    </section>
-
-    <section class="skills" id="skills">
-        <div class="section-header reveal">
-            <h2>Technical Stack</h2>
-            <p>Tools I use to transform concepts into reality</p>
-        </div>
-        
-        <div class="skills-grid">
-            <div class="skill-category reveal">
-                <h3>Frontend</h3>
-                <ul class="skill-list">
-                    <li>React / Next.js <span>●</span></li>
-                    <li>TypeScript <span>●</span></li>
-                    <li>WebGL / Three.js <span>●</span></li>
-                    <li>GSAP / Framer Motion <span>●</span></li>
-                </ul>
             </div>
-
-            <div class="skill-category reveal">
-                <h3>Backend</h3>
-                <ul class="skill-list">
-                    <li>Node.js / Deno <span>●</span></li>
-                    <li>PostgreSQL <span>●</span></li>
-                    <li>GraphQL <span>●</span></li>
-                    <li>WebSocket APIs <span>●</span></li>
-                </ul>
+            <div class="project-card">
+                <div class="project-image"></div>
+                <div class="project-content">
+                    <span class="tag">Three.js</span>
+                    <span class="tag">AI</span>
+                    <h3>Neural Interface</h3>
+                </div>
             </div>
-
-            <div class="skill-category reveal">
-                <h3>Creative</h3>
-                <ul class="skill-list">
-                    <li>Generative Art <span>●</span></li>
-                    <li>Shader Programming <span>●</span></li>
-                    <li>3D Modeling <span>●</span></li>
-                    <li>Creative Coding <span>●</span></li>
-                </ul>
+            <div class="project-card">
+                <div class="project-image"></div>
+                <div class="project-content">
+                    <span class="tag">Canvas</span>
+                    <span class="tag">Motion</span>
+                    <h3>Generative Art</h3>
+                </div>
             </div>
         </div>
     </section>
-
-    <section class="contact" id="contact">
-        <div class="contact-box reveal">
-            <h2>Let's Create Together</h2>
-            <p>Available for freelance projects and creative collaborations</p>
-            <a href="mailto:hello@alexchen.dev" style="color: var(--accent); text-decoration: none; font-size: 1.25rem; font-weight: 600;">hello@alexchen.dev</a>
-            
-            <div class="social-links">
-                <a href="#">GH</a>
-                <a href="#">TW</a>
-                <a href="#">LI</a>
-                <a href="#">IG</a>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <p>© 2024 Alex Chen. Crafted with passion & vanilla JS.</p>
-    </footer>
 
     <script>
-        // Generate floating particles
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 50; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 20 + 's';
-            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-            particlesContainer.appendChild(particle);
-        }
-
-        // 3D Mouse interaction
-        const scene3d = document.getElementById('scene3d');
-        const morphBlob = document.getElementById('morphBlob');
-        let mouseX = 0;
-        let mouseY = 0;
-        let targetX = 0;
-        let targetY = 0;
+        // Custom cursor
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('follower');
+        
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        let followerX = 0, followerY = 0;
 
         document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
 
-        // Smooth animation loop
-        function animate() {
-            targetX += (mouseX - targetX) * 0.05;
-            targetY += (mouseY - targetY) * 0.05;
+        // Smooth cursor animation
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            followerX += (mouseX - followerX) * 0.1;
+            followerY += (mouseY - followerY) * 0.1;
 
-            // Rotate scene based on mouse
-            scene3d.style.transform = `
-                rotateY(${targetX * 30}deg) 
-                rotateX(${-targetY * 30}deg)
-                translateY(${Math.sin(Date.now() / 1000) * 10}px)
-            `;
+            cursor.style.transform = `translate(${cursorX - 10}px, ${cursorY - 10}px)`;
+            follower.style.transform = `translate(${followerX - 20}px, ${followerY - 20}px)`;
 
-            // Parallax blob effect
-            morphBlob.style.transform = `
-                translate(-50%, -50%) 
-                translateZ(${targetY * 50}px)
-                scale(${1 + Math.abs(targetX) * 0.1})
-            `;
-
-            requestAnimationFrame(animate);
+            requestAnimationFrame(animateCursor);
         }
-        animate();
+        animateCursor();
 
-        // Scroll reveal animation
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        // 3D Scene reaction
+        const scene = document.getElementById('scene');
+        const core = document.getElementById('core');
+        const ring1 = document.getElementById('ring1');
+        const ring2 = document.getElementById('ring2');
+        const ring3 = document.getElementById('ring3');
+        const canvas = document.getElementById('connectionCanvas');
+        const ctx = canvas.getContext('2d');
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, observerOptions);
+        // Set canvas size
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
 
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        // Scene center
+        let sceneRect = scene.getBoundingClientRect();
+        let centerX = sceneRect.left + sceneRect.width / 2;
+        let centerY = sceneRect.top + sceneRect.height / 2;
 
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
+        window.addEventListener('scroll', () => {
+            sceneRect = scene.getBoundingClientRect();
+            centerX = sceneRect.left + sceneRect.width / 2;
+            centerY = sceneRect.top + sceneRect.height / 2;
         });
 
-        // Device orientation for mobile
-        if (window.DeviceOrientationEvent) {
-            window.addEventListener('deviceorientation', (e) => {
-                if (e.beta && e.gamma) {
-                    mouseY = Math.max(-1, Math.min(1, e.beta / 45));
-                    mouseX = Math.max(-1, Math.min(1, e.gamma / 45));
+        window.addEventListener('resize', () => {
+            sceneRect = scene.getBoundingClientRect();
+            centerX = sceneRect.left + sceneRect.width / 2;
+            centerY = sceneRect.top + sceneRect.height / 2;
+        });
+
+        // Interactive animation
+        function animateScene() {
+            const rect = scene.getBoundingClientRect();
+            const sceneCenterX = rect.left + rect.width / 2;
+            const sceneCenterY = rect.top + rect.height / 2;
+
+            // Calculate distance from mouse to scene center
+            const deltaX = mouseX - sceneCenterX;
+            const deltaY = mouseY - sceneCenterY;
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            const maxDistance = 400;
+            const intensity = Math.max(0, 1 - distance / maxDistance);
+
+            // Rotate core based on mouse position
+            const rotateY = (deltaX / window.innerWidth) * 60;
+            const rotateX = -(deltaY / window.innerHeight) * 60;
+
+            core.style.transform = `
+                translate(-50%, -50%)
+                rotateX(${rotateX}deg)
+                rotateY(${rotateY}deg)
+                scale(${1 + intensity * 0.2})
+            `;
+
+            // Deform rings based on proximity
+            const ringScale = 1 + intensity * 0.3;
+            const ringDeform = intensity * 20;
+
+            ring1.style.transform = `
+                translate(-50%, -50%)
+                scale(${ringScale})
+                rotateX(${rotateX * 0.5}deg)
+                rotateY(${rotateY * 0.5}deg)
+            `;
+            ring1.style.borderRadius = `${50 + ringDeform}% ${50 - ringDeform}% ${50 + ringDeform}% ${50 - ringDeform}%`;
+
+            ring2.style.transform = `
+                translate(-50%, -50%)
+                scale(${ringScale * 0.9})
+                rotateX(${-rotateX * 0.3}deg)
+                rotateY(${-rotateY * 0.3}deg)
+            `;
+            ring2.style.borderColor = `rgba(0, 212, 255, ${0.2 + intensity * 0.5})`;
+
+            ring3.style.transform = `
+                translate(-50%, -50%)
+                scale(${ringScale * 0.8})
+                rotateX(${rotateX * 0.2}deg)
+                rotateY(${rotateY * 0.2}deg)
+            `;
+            ring3.style.borderWidth = `${1 + intensity * 2}px`;
+
+            // Draw connection lines on canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (intensity > 0.1) {
+                ctx.beginPath();
+                ctx.moveTo(mouseX, mouseY);
+                ctx.lineTo(sceneCenterX, sceneCenterY);
+                ctx.strokeStyle = `rgba(0, 212, 255, ${intensity * 0.5})`;
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.stroke();
+
+                // Draw energy points along the line
+                const steps = 5;
+                for (let i = 1; i < steps; i++) {
+                    const t = i / steps;
+                    const x = mouseX + (sceneCenterX - mouseX) * t;
+                    const y = mouseY + (sceneCenterY - mouseY) * t;
+                    
+                    ctx.beginPath();
+                    ctx.arc(x, y, 3 * intensity, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(0, 212, 255, ${intensity})`;
+                    ctx.fill();
                 }
+            }
+
+            // Core faces glow on proximity
+            const faces = core.querySelectorAll('.core-face');
+            faces.forEach((face, i) => {
+                const glowIntensity = intensity * (0.3 + (i % 2) * 0.2);
+                face.style.boxShadow = `
+                    0 0 ${20 + intensity * 30}px rgba(0, 212, 255, ${glowIntensity}),
+                    inset 0 0 ${20 + intensity * 20}px rgba(0, 212, 255, ${glowIntensity * 0.5})
+                `;
+                face.style.borderColor = `rgba(0, 212, 255, ${0.3 + intensity * 0.7})`;
             });
+
+            requestAnimationFrame(animateScene);
         }
+        animateScene();
+
+        // Click interaction
+        document.addEventListener('click', (e) => {
+            // Create ripple effect at click position
+            const ripple = document.createElement('div');
+            ripple.style.position = 'fixed';
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
+            ripple.style.width = '20px';
+            ripple.style.height = '20px';
+            ripple.style.border = '2px solid var(--accent)';
+            ripple.style.borderRadius = '50%';
+            ripple.style.transform = 'translate(-50%, -50%)';
+            ripple.style.pointerEvents = 'none';
+            ripple.style.animation = 'rippleExpand 0.6s ease-out forwards';
+            document.body.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 600);
+        });
+
+        // Add ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes rippleExpand {
+                to {
+                    width: 100px;
+                    height: 100px;
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 
 </body>
