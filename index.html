@@ -3,109 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neoman! sck it</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #e0e0e0;
-            margin: 0;
-            font-family: "Poppins";
-        }
-
-        .card {
-            background-color: #e0e0e0;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 10px 10px 30px #bebebe, -10px -10px 30px #ffffff;
-            width: 300px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .tokens-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-            color: #555;
-        }
-
-        .logo-icon {
-            width: 16px;
-            height: 16px;
-            background-color: #4a90e2;
-            border-radius: 50%;
-        }
-
-        .price {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .counter-controls {
-            display: flex;
-            border-radius: 12px;
-            overflow: hidden;
-            background-color: #e0e0e0;
-            box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
-        }
-
-        .button, .display {
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            outline: none;
-            transition: background-color 0.2s;
-            font-size: 18px;
-            font-weight: bold;
-            color: #555;
-            flex-grow: 1;
-            text-align: center;
-        }
-
-        .button {
-            background: none;
-            box-shadow: 0px 0px 0px rgba(0,0,0,0);
-        }
-
-        .button:active {
-            box-shadow: inset 2px 2px 5px #bebebe, inset -2px -2px 5px #ffffff;
-        }
-
-        .display {
-            background-color: #333;
-            color: #00bcd4;
-            cursor: default;
-            flex-grow: 2;
-        }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Document</title>
 </head>
 <body>
-    <div class="card">
-        <div class="header">
-            <div class="tokens-info">
-                <div class="logo-icon"></div>
-                Tokens
-            </div>
-            <div class="price">
-                $1.00
-            </div>
-        </div>
-        <div class="counter-controls">
-            <button class="button minus">—</button>
-            <div class="display">1</div>
-            <button class="button plus">+</button>
-        </div>
+    <div class="bg-white min-h-svh flex justify-center items-center">
+        <button id="openBtn" class="bg-black text-white p-2 rounded-md cursor-pointer hover:-translate-y-1 transition-all duration-300">Open</button>
     </div>
+
+    <!-- Open Model -->
+    <div class="modal bg-[#F0F2F5] p-2  max-w-100 text-center rounded-md absolute inset-0 m-auto h-fit space-y-3 shadow-md hidden">
+        <h1 class="font-bold text-2xl">This is Heading</h1>
+        <p class="text-sm">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid minus quos laboriosam pariatur dignissimos praesentium voluptatum alias enim debitis suscipit cum placeat eius deserunt odio, nemo blanditiis consequuntur dolorum beatae?
+        </p>
+
+        <button id="closeBtn" class="bg-black text-white p-2 rounded-md cursor-pointer hover:-translate-y-1 transition-all duration-300">Close</button>
+    </div>
+
+    <script>
+        const modal = document.querySelector('.modal');
+        const openBtn = document.getElementById('openBtn');
+        const closeBtn = document.getElementById('closeBtn');
+
+
+        openBtn.addEventListener('click', (e)=>{
+            e.stopPropagation();
+            modal.classList.remove('hidden');
+        });
+
+        closeBtn.addEventListener('click', (e)=>{
+            e.stopPropagation();
+            modal.classList.add('hidden');
+        });
+
+        document.addEventListener('click', (e)=>{
+            const isOpen = !modal.classList.contains('hidden');
+
+            if(isOpen && !modal.contains(e.target)){
+                modal.classList.add('hidden');
+            } 
+
+            console.log('Nothing, Happended');
+        });
+
+    </script>
 </body>
 </html>
