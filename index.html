@@ -3,50 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <title>Document</title>
+    <link rel="stylesheet" href="/src/output.css">
 </head>
 <body>
-    <div class="bg-white min-h-svh flex justify-center items-center">
-        <button id="openBtn" class="bg-black text-white p-2 rounded-md cursor-pointer hover:-translate-y-1 transition-all duration-300">Open</button>
-    </div>
-
-    <!-- Open Model -->
-    <div class="modal bg-[#F0F2F5] p-2  max-w-100 text-center rounded-md absolute inset-0 m-auto h-fit space-y-3 shadow-md hidden">
-        <h1 class="font-bold text-2xl">This is Heading</h1>
-        <p class="text-sm">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid minus quos laboriosam pariatur dignissimos praesentium voluptatum alias enim debitis suscipit cum placeat eius deserunt odio, nemo blanditiis consequuntur dolorum beatae?
-        </p>
-
-        <button id="closeBtn" class="bg-black text-white p-2 rounded-md cursor-pointer hover:-translate-y-1 transition-all duration-300">Close</button>
+    <div class="min-h-screen flex flex-col justify-center space-y-2 text-white items-center bg-black">
+        <input id="searchInput" type="search" placeholder="Search Items" class="border border-white/50 p-2 rounded">
+        <div class="list text-left">
+            <div class="items">Pokemon</div>
+            <div class="items">Nobita</div>
+            <div class="items">Doraemon</div>
+            <div class="items">Dujutsu Kaisen</div>
+            <div class="items">Allen</div>
+            <div class="items">Kleen</div>
+        </div>
     </div>
 
     <script>
-        const modal = document.querySelector('.modal');
-        const openBtn = document.getElementById('openBtn');
-        const closeBtn = document.getElementById('closeBtn');
+        const searchInput = document.getElementById('searchInput');
+        const items = document.querySelectorAll('.items');
 
+        searchInput.addEventListener('input', (e)=>{
+            const term = e.target.value.toLowerCase();
 
-        openBtn.addEventListener('click', (e)=>{
-            e.stopPropagation();
-            modal.classList.remove('hidden');
+            items.forEach( item => {
+                item.classList.add('hidden');
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(term) ? 'block' : 'none';
+            });
         });
-
-        closeBtn.addEventListener('click', (e)=>{
-            e.stopPropagation();
-            modal.classList.add('hidden');
-        });
-
-        document.addEventListener('click', (e)=>{
-            const isOpen = !modal.classList.contains('hidden');
-
-            if(isOpen && !modal.contains(e.target)){
-                modal.classList.add('hidden');
-            } 
-
-            console.log('Nothing, Happended');
-        });
-
     </script>
 </body>
 </html>
