@@ -20,18 +20,7 @@
     </div>
 
     <script>
-        const searchInput = document.getElementById('searchInput');
-        const items = document.querySelectorAll('.items');
-
-        searchInput.addEventListener('input', (e)=>{
-            const term = e.target.value.toLowerCase();
-
-            items.forEach( item => {
-                item.classList.add('hidden');
-                const text = item.textContent.toLowerCase();
-                item.style.display = text.includes(term) ? 'block' : 'none';
-            });
-        });
+        
     </script>
 </body>
 </html>
