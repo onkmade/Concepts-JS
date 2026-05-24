@@ -1,0 +1,186 @@
+<!-- Arrays + DOM getElementById -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            font-family: "Poppins";
+        }
+        li{
+            list-style: none;
+        }
+
+        #color-box{
+            width: 5rem;
+            height: 5rem;
+            border-radius: 0.5rem;
+            background-color: black;
+        }
+
+        #filtered{
+            display: flex;
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <ul id="fruit-list"></ul>
+    <div id="sum-display">Sum Display: </div><br>
+    <div id="color-box"></div>
+    <br>
+    <button onclick="cycleColor()">Click to Change Color</button>
+    <div id="students"></div>
+    <div id="maxNumber">Max Number:</div><br>
+    <div id="library"></div><br>
+    <div id="scores"></div><br>
+    <div id="filtered"></div>
+
+    <!-- JS -->
+    <script>
+        const fruits = ["Apple", "Banana", "Cherry"];
+        const fruitList = document.getElementById("fruit-list");
+        
+        
+        const numarr = [1, 4, 5, 10, 11, 26];
+        
+        
+        function displayFruits(arr){
+            let listFruits = "";
+
+            for(let fruit of arr){
+                listFruits += "<li>" + fruit + "</li>";
+                fruitList.innerHTML = listFruits
+            }
+            
+        }
+        
+        function sumNum(arr){
+            const numBox = document.getElementById('sum-display');
+            
+            let sum = 0;
+            for(let num of arr){
+                sum += num;
+            } 
+            
+            numBox.textContent = `${numBox.textContent} ${sum}`;
+        }
+
+        
+        const colorArr = ["red", "brown", "orange", "blue", "steelblue", "pink"];
+        let count = 0; 
+
+        function cycleColor(){
+
+            const colorBox = document.getElementById("color-box"); 
+
+            colorBox.style.backgroundColor = colorArr[count]; 
+            
+            count++;
+            if(count > colorArr.length){
+                count = 0;
+            }
+        }
+
+        const studentList = ["Baka", "Esmo", "CheezBurga", "Cornpotato", "Carlos"];
+
+        function displayStudent(arr){
+            const students = document.getElementById('students');    // div with ID students
+
+            const fragment = new DocumentFragment(); // created a new empty fragment object, to append the element that does not exist in DOM
+
+            arr.forEach( student => {
+                const p = document.createElement('p'); // created a <p> element
+
+                p.textContent = student; // content of that p element is student's name
+                fragment.appendChild(p); // pushing it into the fragment to append it at once, rather than one by one
+            })
+
+            students.appendChild(fragment); // appending the fragment into the students to show the list of <p> elements!
+        }
+        
+
+        const books = [
+            {title:"I'm the greatest of all time" , author: "God" },
+            {title:"The One piece" , author: "Ecchiro Oda" }
+        ];
+
+
+        function bookManagement(arr){
+            const library = document.getElementById('library');
+            const fragment = new DocumentFragment();
+
+            arr.forEach(book => {
+                const div = document.createElement('div');
+                div.textContent = `The Book: ${book.title}, Author ~ ${book.author}`
+
+                fragment.appendChild(div);
+            });
+
+            library.appendChild(fragment);
+        }
+
+        const number = [12, 43, 65, 76, 1, 54, 71, 5, 7, 11, 2, 8, 18, 24];
+
+        const maxValue = arr => {
+            const display = document.getElementById('maxNumber');
+
+            let max = -Infinity;
+            for(let num of arr){
+                if( num > max){
+                    max = num;
+                }
+            }
+
+            let nums = arr.join(', ');
+
+            display.textContent = `Max Numbers amoung ${nums} is ${max}`
+        }
+
+        const Names = ["baka", "esmo", "sevrus", "king"];
+        const Scores = [98, 75, 23, 44];
+
+        const nameandscore = (arr1, arr2) => {
+            const scores = document.getElementById('scores');
+
+            const fragment = new DocumentFragment();
+            for(let i = 0; i < arr1.length; i++){
+                let div = document.createElement('div');
+                div.textContent = `${arr1[i]}: ${arr2[i]}`
+
+                fragment.appendChild(div);
+            }
+
+            scores.appendChild(fragment);
+        }
+
+        const filterValues = arr => {
+            const filtered = document.getElementById('filtered');
+            const fragment = new DocumentFragment;
+
+            let newarr = [];
+            arr.forEach(num => {
+                if(num <= 25){
+                    const div = document.createElement('div');
+                    div.textContent = num;
+                    fragment.appendChild(div);
+                }
+            });
+
+            filtered.appendChild(fragment);
+        }
+
+        filterValues(number);
+        nameandscore(Names, Scores);
+        maxValue(number);
+        bookManagement(books);
+        displayStudent(studentList);
+        displayFruits(fruits);
+        sumNum(numarr);
+        cycleColor();
+    </script>
+</body>
+</html>

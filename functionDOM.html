@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ Accordion Demo</title>
+    <style>
+        img{
+            width: 10rem;
+        }
+
+        #box{
+            width: 5rem;
+            height: 5rem;
+            background-color: orange;
+            border-radius: 0.5rem;
+        }
+
+        .add{
+            color: brown;
+            font-weight: 600;
+            font-family: "Poppins";
+        }
+
+        input{
+            outline: transparent;
+            border: 2px solid black;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="one">Pretty woman are loyals</div>
+    <div id="two">This is namaste</div>
+    <p id="char-count">Char Count: </p>
+
+    <!-- Mirror Input -->
+    
+    <input type="text" id="userInput" placeholder="Type Something" oninput="mirrorInput(this, 'textInput')">
+    <p id="textInput"></p>
+    <script>
+
+        const foo = document.getElementById("one");
+        const bar = document.getElementById('two');
+        
+        const updateText = (id, newText) => {
+            id.textContent = newText;
+        }
+        updateText(foo, "Hey babe");
+        
+        const setColor = (id, color) => {
+            id.style.color = color;
+        }
+
+        setColor(foo, "brown")
+
+        const doubleSize = id =>{
+            const computedSize = window.getComputedStyle(id);
+            const newSize = parseInt(computedSize.fontSize) * 2;
+
+            id.style.fontSize = `${newSize}px`;
+        }
+
+        doubleSize(foo);
+
+        const appendText = (id, text) => {
+            id.textContent = `${id.textContent} ${text}`;
+        }
+        appendText(foo, "Something I write here, then press okay!");
+
+
+
+        const resetStyles = id => {
+            id.style.cssText = "none";
+        }
+
+        resetStyles(foo);
+
+        const countChars = id => {
+            const element = document.getElementById("char-count");
+            let count = 0;
+            for(let char of id.textContent){
+                count++;
+            }
+
+            element.textContent = element.textContent + count;
+        }
+        countChars(foo);
+
+
+        const mirrorInput = (inputID, outputID) => {
+            const output = document.getElementById("textInput");
+            output.textContent = inputID.value;
+            validateNotEmpty(input);
+        }
+        
+        const input = document.querySelector('input');
+        const validateNotEmpty = id => {
+            if(input.value === ""){
+                input.style.borderColor = "red";
+            } else {
+                input.style.borderColor = "";
+            }
+        }
+
+
+        input.style.backgroundColor
+
+        function generateRandomColor(){
+            let onk1 = Math.floor(Math.random() * 100);
+            let onk2 = Math.floor(Math.random() * 100);
+            let onk3 = Math.floor(Math.random() * 100);
+            return `rgb(${onk1}, ${onk2}, ${onk3})`   
+        }
+
+        const applyColor = id => {
+            id.style.backgroundColor = generateRandomColor();
+        }
+
+        applyColor(foo);
+    </script>
+</body>
+</html>
